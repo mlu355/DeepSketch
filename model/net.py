@@ -4,8 +4,9 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from deform_conv import DeformConv2D
 
-
+# importing their deform net lol
 class Net(nn.Module):
     """
     This is the standard way to define your own network in PyTorch. You typically choose the components
@@ -31,24 +32,56 @@ class Net(nn.Module):
         Args:
             params: (Params) contains num_channels
         """
+        # super(Net, self).__init__()
+        # self.num_channels = params.num_channels
+        
+        # # each of the convolution layers below have the arguments (input_channels, output_channels, filter_size,
+        # # stride, padding). We also include batch normalisation layers that help stabilise training.
+        # # For more details on how to use these layers, check out the documentation.
+        # self.conv1 = nn.Conv2d(1, self.num_channels, 3, stride=1, padding=1)
+        # self.bn1 = nn.BatchNorm2d(self.num_channels)
+        # self.conv2 = nn.Conv2d(self.num_channels, self.num_channels*2, 3, stride=1, padding=1)
+        # self.bn2 = nn.BatchNorm2d(self.num_channels*2)
+        # self.conv3 = nn.Conv2d(self.num_channels*2, self.num_channels*4, 3, stride=1, padding=1)
+        # self.bn3 = nn.BatchNorm2d(self.num_channels*4)
+
+        # # 2 fully connected layers to transform the output of the convolution layers to the final output
+        # self.fc1 = nn.Linear(8*8*self.num_channels*4, self.num_channels*4)
+        # self.fcbn1 = nn.BatchNorm1d(self.num_channels*4)
+        # self.fc2 = nn.Linear(self.num_channels*4, 250)       
+        # self.dropout_rate = params.dropout_rate
+
         super(Net, self).__init__()
         self.num_channels = params.num_channels
-        
+
         # each of the convolution layers below have the arguments (input_channels, output_channels, filter_size,
         # stride, padding). We also include batch normalisation layers that help stabilise training.
         # For more details on how to use these layers, check out the documentation.
-        self.conv1 = nn.Conv2d(1, self.num_channels, 3, stride=1, padding=1)
+        # no change from original
+        self.conv1 = nn.Conv2d(1, self.num_channels, kernel_size=3, stride=1, padding=1)
         self.bn1 = nn.BatchNorm2d(self.num_channels)
-        self.conv2 = nn.Conv2d(self.num_channels, self.num_channels*2, 3, stride=1, padding=1)
+
+        self.conv2 = nn.Conv2d(self.num_channels, self.num_channels*2, kernel_size=3, stride=1, padding=1)
         self.bn2 = nn.BatchNorm2d(self.num_channels*2)
-        self.conv3 = nn.Conv2d(self.num_channels*2, self.num_channels*4, 3, stride=1, padding=1)
+
+        self.conv3 = nn.Conv2d(self.num_channels*2, self.num_channels*4, kernel_size=3, stride=1, padding=1)
         self.bn3 = nn.BatchNorm2d(self.num_channels*4)
 
+        # deform conv layer - from chunlin
+        self.offsets = nn.Conv2d(self.num_channels*4, 18, kernel_size=3, padding=1)
+        self.conv4 = DeformConv2D(self.num_channels*4, self.num_channels*4, kernel_size=3, padding=1)
+        self.bn4 = nn.BatchNorm2d(self.num_channels*4)
+
+        # final output - from chunlin, changed classes to 250
+        self.classifier = nn.Linear(self.num_channels*4, 250)
+
         # 2 fully connected layers to transform the output of the convolution layers to the final output
-        self.fc1 = nn.Linear(8*8*self.num_channels*4, self.num_channels*4)
-        self.fcbn1 = nn.BatchNorm1d(self.num_channels*4)
-        self.fc2 = nn.Linear(self.num_channels*4, 250)       
-        self.dropout_rate = params.dropout_rate
+        # from ta model i dont think chunlin's model needs this...
+        # self.fc1 = nn.Linear(8*8*self.num_channels*4, self.num_channels*4)
+        # self.fcbn1 = nn.BatchNorm1d(self.num_channels*4)
+        # self.fc2 = nn.Linear(self.num_channels*4, 250)       
+        # self.dropout_rate = params.dropout_rate
+
 
     def forward(self, s):
         """
@@ -60,28 +93,51 @@ class Net(nn.Module):
         Returns:
             out: (Variable) dimension batch_size x 6 with the log probabilities for the labels of each image.
 
-        Note: the dimensions after each step are provided
-        """
-        #                                                  -> batch_size x 3 x 64 x 64
-        # we apply the convolution layers, followed by batch normalisation, maxpool and relu x 3
-        s = self.bn1(self.conv1(s))                         # batch_size x num_channels x 64 x 64
-        s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels x 32 x 32
-        s = self.bn2(self.conv2(s))                         # batch_size x num_channels*2 x 32 x 32
-        s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*2 x 16 x 16
-        s = self.bn3(self.conv3(s))                         # batch_size x num_channels*4 x 16 x 16
-        s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*4 x 8 x 8
+        # Note: the dimensions after each step are provided
+        # """
+        # #                                                  -> batch_size x 3 x 64 x 64
+        # # we apply the convolution layers, followed by batch normalisation, maxpool and relu x 3
+        # s = self.bn1(self.conv1(s))                         # batch_size x num_channels x 64 x 64
+        # s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels x 32 x 32
+        # s = self.bn2(self.conv2(s))                         # batch_size x num_channels*2 x 32 x 32
+        # s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*2 x 16 x 16
+        # s = self.bn3(self.conv3(s))                         # batch_size x num_channels*4 x 16 x 16
+        # s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*4 x 8 x 8
 
-        # flatten the output for each image
-        s = s.view(-1, 8*8*self.num_channels*4)             # batch_size x 8*8*num_channels*4
+        # # flatten the output for each image
+        # s = s.view(-1, 8*8*self.num_channels*4)             # batch_size x 8*8*num_channels*4
 
-        # apply 2 fully connected layers with dropout
-        s = F.dropout(F.relu(self.fcbn1(self.fc1(s))), 
-            p=self.dropout_rate, training=self.training)    # batch_size x self.num_channels*4
-        s = self.fc2(s)                                     # batch_size x 6
+        # # apply 2 fully connected layers with dropout
+        # s = F.dropout(F.relu(self.fcbn1(self.fc1(s))), 
+        #     p=self.dropout_rate, training=self.training)    # batch_size x self.num_channels*4
+        # s = self.fc2(s)                                     # batch_size x 6
+
+        # # apply log softmax on each image's output (this is recommended over applying softmax
+        # # since it is numerically more stable)
+        # return F.log_softmax(s, dim=1)
+
+        # convs
+        # apply conv layer followed by relu and then batchnorm
+        # this is what chunlin did so hopefully it works for us too rip
+        s = F.relu(self.conv1(s))
+        s = self.bn1(s)
+        s = F.relu(self.conv2(s))
+        s = self.bn2(s)
+        s = F.relu(self.conv3(s))
+        s = self.bn3(s)
+
+        # deformable convolution - from chunline
+        offsets = self.offsets(s)
+        s = F.relu(self.conv4(s, offsets))
+        s = self.bn4(s)
+
+        s = F.avg_pool2d(s, kernel_size=28, stride=1).view(s.size(0), -1)
+        s = self.classifier(s)
 
         # apply log softmax on each image's output (this is recommended over applying softmax
         # since it is numerically more stable)
         return F.log_softmax(s, dim=1)
+
 
 
 def loss_fn(outputs, labels):
@@ -113,11 +169,8 @@ def accuracy(outputs, labels):
     Returns: (float) accuracy in [0,1]
     """
     outputs = np.argmax(outputs, axis=1)
-<<<<<<< HEAD
-    #print("np.sum(outputs==labels): ", np.sum(outputs==labels), " np.sum(outputs==labels)/float(labels.size): ", np.sum(outputs==labels)/float(labels.size)) 
-    #print("outputs: ", outputs, " labels: ", labels) 
-=======
->>>>>>> 02e35ef6a0b28f3a1433165152143732ec91cfdb
+    # print("np.sum(outputs==labels): ", np.sum(outputs==labels), " np.sum(outputs==labels)/float(labels.size): ", np.sum(outputs==labels)/float(labels.size)) 
+    # print("outputs: ", outputs, " labels: ", labels) 
     return np.sum(outputs==labels)/float(labels.size)
 
 
