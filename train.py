@@ -5,9 +5,13 @@ import logging
 import os
 
 import numpy as np
+
 import torch
 import torch.optim as optim
 from torch.autograd import Variable
+import torch.nn as nn
+import torch.nn.functional as F
+
 from tqdm import tqdm
 
 import utils
@@ -22,6 +26,19 @@ parser.add_argument('--restore_file', default=None,
                     help="Optional, name of the file in --model_dir containing weights to reload before \
                     training")  # 'best' or 'train'
 
+# initlaize deform conv layer
+# chunlins initialize stuff
+def init_weights(m):
+    if isinstance(m, nn.Conv2d) or isinstance(m, nn.Linear):
+        nn.init.xavier_uniform(m.weight, gain=nn.init.calculate_gain('relu'))
+        if m.bias is not None:
+            m.bias.data = torch.FloatTensor(m.bias.shape[0]).zero_()
+
+
+def init_conv_offset(m):
+    m.weight.data = torch.zeros_like(m.weight.data)
+    if m.bias is not None:
+        m.bias.data = torch.FloatTensor(m.bias.shape[0]).zero_()
 
 def train(model, optimizer, loss_fn, dataloader, metrics, params):
     """Train the model on `num_steps` batches
@@ -50,13 +67,16 @@ def train(model, optimizer, loss_fn, dataloader, metrics, params):
             if params.cuda:
                 train_batch, labels_batch = train_batch.cuda(async=True), labels_batch.cuda(async=True)
             # convert to torch Variables
+            print("convert to torch variables")
             train_batch, labels_batch = Variable(train_batch), Variable(labels_batch)
 
             # compute model output and loss
+            print("compute model output and loss")
             output_batch = model(train_batch)
             loss = loss_fn(output_batch, labels_batch)
 
             # clear previous gradients, compute gradients of all variables wrt loss
+            print("clear previous f")
             optimizer.zero_grad()
             loss.backward()
 
@@ -124,6 +144,7 @@ def train_and_evaluate(model, train_dataloader, val_dataloader, optimizer, loss_
         is_best = val_acc>=best_val_acc
 
         # Save weights
+        print("saving weights")
         utils.save_checkpoint({'epoch': epoch + 1,
                                'state_dict': model.state_dict(),
                                'optim_dict' : optimizer.state_dict()},
@@ -174,6 +195,12 @@ if __name__ == '__main__':
 
     # Define the model and optimizer
     model = net.Net(params).cuda() if params.cuda else net.Net(params)
+
+    # initialize model and deform - like chunlin
+    model.apply(init_weights)
+    model.offsets.apply(init_conv_offset)
+
+    # optiizer we use adam, chunlin uses SGD
     optimizer = optim.Adam(model.parameters(), lr=params.learning_rate)
 
     # fetch loss function and metrics

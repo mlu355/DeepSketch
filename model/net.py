@@ -119,14 +119,20 @@ class Net(nn.Module):
         # convs
         # apply conv layer followed by relu and then batchnorm
         # this is what chunlin did so hopefully it works for us too rip
-        s = F.relu(self.conv1(s))
-        s = self.bn1(s)
-        s = F.relu(self.conv2(s))
-        s = self.bn2(s)
-        s = F.relu(self.conv3(s))
-        s = self.bn3(s)
+        # s = F.relu(self.conv1(s))
+        # s = self.bn1(s)
+        # s = F.relu(self.conv2(s))
+        # s = self.bn2(s)
+        # s = F.relu(self.conv3(s))
+        # s = self.bn3(s)
+        s = self.bn1(self.conv1(s))                         # batch_size x num_channels x 64 x 64
+        s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels x 32 x 32
+        s = self.bn2(self.conv2(s))                         # batch_size x num_channels*2 x 32 x 32
+        s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*2 x 16 x 16
+        s = self.bn3(self.conv3(s))                         # batch_size x num_channels*4 x 16 x 16
+        s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*4 x 8 x 8
 
-        # deformable convolution - from chunline
+        # deformable convolution - from chunlin
         offsets = self.offsets(s)
         s = F.relu(self.conv4(s, offsets))
         s = self.bn4(s)
