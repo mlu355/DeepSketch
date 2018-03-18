@@ -136,8 +136,9 @@ class Net(nn.Module):
         offsets = self.offsets(s)
         s = F.relu(self.conv4(s, offsets))
         s = self.bn4(s)
-
-        s = F.avg_pool2d(s, kernel_size=28, stride=1).view(s.size(0), -1)
+        #print(s.shape)
+        s = F.avg_pool2d(s, kernel_size=8, stride=1).view(s.size(0), -1)
+        #print(s.shape)
         s = self.classifier(s)
 
         # apply log softmax on each image's output (this is recommended over applying softmax

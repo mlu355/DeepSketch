@@ -67,16 +67,16 @@ def train(model, optimizer, loss_fn, dataloader, metrics, params):
             if params.cuda:
                 train_batch, labels_batch = train_batch.cuda(async=True), labels_batch.cuda(async=True)
             # convert to torch Variables
-            print("convert to torch variables")
+            #print("convert to torch variables")
             train_batch, labels_batch = Variable(train_batch), Variable(labels_batch)
 
             # compute model output and loss
-            print("compute model output and loss")
+            #print("compute model output and loss")
             output_batch = model(train_batch)
             loss = loss_fn(output_batch, labels_batch)
 
             # clear previous gradients, compute gradients of all variables wrt loss
-            print("clear previous f")
+            #print("clear previous f")
             optimizer.zero_grad()
             loss.backward()
 
