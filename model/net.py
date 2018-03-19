@@ -34,6 +34,7 @@ class Net(nn.Module):
         """
         # super(Net, self).__init__()
         # self.num_channels = params.num_channels
+ 
         
         # # each of the convolution layers below have the arguments (input_channels, output_channels, filter_size,
         # # stride, padding). We also include batch normalisation layers that help stabilise training.
@@ -64,14 +65,22 @@ class Net(nn.Module):
         self.conv2 = nn.Conv2d(self.num_channels, self.num_channels*2, kernel_size=3, stride=1, padding=1)
         self.bn2 = nn.BatchNorm2d(self.num_channels*2)
 
-        self.conv3 = nn.Conv2d(self.num_channels*2, self.num_channels*4, kernel_size=3, stride=1, padding=1)
-        self.bn3 = nn.BatchNorm2d(self.num_channels*4)
+        self.conv3 = nn.Conv2d(self.num_channels*2, self.num_channels*2, kernel_size=3, stride=1, padding=1)
+        self.bn3 = nn.BatchNorm2d(self.num_channels*2)
+
+        self.conv4 = nn.Conv2d(self.num_channels*2, self.num_channels*4, kernel_size=3, stride=1, padding=1)
+        self.bn4 = nn.BatchNorm2d(self.num_channels*4)
+
+        #self.conv5 = nn.Conv2d(self.num_channels*4, self.num_channels*4, kernel_size=3, stride=1, padding=1)
+        #self.bn5 = nn.BatchNorm2d(self.num_channels*4)
 
         # deform conv layer - from chunlin
         self.offsets = nn.Conv2d(self.num_channels*4, 18, kernel_size=3, padding=1)
-        self.conv4 = DeformConv2D(self.num_channels*4, self.num_channels*4, kernel_size=3, padding=1)
-        self.bn4 = nn.BatchNorm2d(self.num_channels*4)
+        self.conv6 = DeformConv2D(self.num_channels*4, self.num_channels*4, kernel_size=3, padding=1)
+        self.bn6 = nn.BatchNorm2d(self.num_channels*4)
 
+        self.fc1 = nn.Linear(self.num_channels*4, self.num_channels*4)
+        self.fcbn1 = nn.BatchNorm1d(self.num_channels*4) 
         # final output - from chunlin, changed classes to 250
         self.classifier = nn.Linear(self.num_channels*4, 250)
 
@@ -80,7 +89,7 @@ class Net(nn.Module):
         # self.fc1 = nn.Linear(8*8*self.num_channels*4, self.num_channels*4)
         # self.fcbn1 = nn.BatchNorm1d(self.num_channels*4)
         # self.fc2 = nn.Linear(self.num_channels*4, 250)       
-        # self.dropout_rate = params.dropout_rate
+        self.dropout_rate = params.dropout_rate
 
 
     def forward(self, s):
@@ -125,20 +134,43 @@ class Net(nn.Module):
         # s = self.bn2(s)
         # s = F.relu(self.conv3(s))
         # s = self.bn3(s)
-        s = self.bn1(self.conv1(s))                         # batch_size x num_channels x 64 x 64
+        #print("before 1:", s.shape)
+        s = F.dropout(self.bn1(self.conv1(s)))                         # batch_size x num_channels x 64 x 64
+        #print("after bn1:", s.shape)
         s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels x 32 x 32
+        #print("after relu1:", s.shape)
         s = self.bn2(self.conv2(s))                         # batch_size x num_channels*2 x 32 x 32
+        #print("after bn2:", s.shape)
         s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*2 x 16 x 16
+        #print("after relu2:", s.shape)
         s = self.bn3(self.conv3(s))                         # batch_size x num_channels*4 x 16 x 16
+        #print("after bn3:", s.shape)
         s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*4 x 8 x 8
+        #print("after relu3:", s.shape)
+        s = self.bn4(self.conv4(s))                         # batch_size x num_channels*4 x 16 x 16
+        #print("after bn4:", s.shape)
+        s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*4 x 8 x 8
+       # print("after relu4:", s.shape)
+        #s = self.bn5(self.conv5(s))                         # batch_size x num_channels*4 x 16 x 16
+        #print("after bn5:", s.shape)
+        #s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*4 x 8 x 8
+        #print("after relu5:", s.shape)
+
 
         # deformable convolution - from chunlin
         offsets = self.offsets(s)
-        s = F.relu(self.conv4(s, offsets))
-        s = self.bn4(s)
+        s = F.relu(self.conv6(s, offsets))
+        s = self.bn6(s)
         #print(s.shape)
-        s = F.avg_pool2d(s, kernel_size=8, stride=1).view(s.size(0), -1)
-        #print(s.shape)
+        s = F.avg_pool2d(s, kernel_size=4, stride=1).view(s.size(0), -1)
+       
+        # apply 2 fully connected layers with dropout
+        #s = s.view(-1, 8*8*self.num_channels*4) 
+        s = F.dropout(F.relu(self.fcbn1(self.fc1(s))), 
+        p=self.dropout_rate, training=self.training)    # batch_size x self.num_channels*4
+        #
+ 
+	#print(s.shape)
         s = self.classifier(s)
 
         # apply log softmax on each image's output (this is recommended over applying softmax
