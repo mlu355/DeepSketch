@@ -23,7 +23,7 @@ parser.add_argument('--restore_file', default='best', help="name of the file in 
 def get_classes():
     cwd = os.getcwd()
 
-    data_path = os.path.join(cwd, 'data/SKETCHES_ALL')
+    data_path = os.path.join(cwd, 'data/SKETCHES')
     filenames= os.listdir(".") # get all files' and folders' names in the current directory
 
     # getting all the subfolders
@@ -92,15 +92,20 @@ if __name__ == '__main__':
     # get image path
     cwd = os.getcwd()
 
-    curr_path = os.path.join(cwd, "test_img.png")
+    #curr_path = os.path.join(cwd, "data/64x64_SKETCHES/test_sketches/16_1315.png")
+    curr_path = os.path.join(cwd, "data/64x64_SKETCHES/test_sketches/76_6160.png")
 
     image = image_loader(curr_path)
     
     # set model to evaluation mode
     model.eval()
     output = model(image)
-    predictions = output.max(1) 
-    # first e;ement in predicvtions is the score, second element is the class index
-    label = int(predictions[1])
+    #print(output)
+    #predictions = output.max(1) 
+    #print("predictions", predictions)
+    label = np.argmax(output.data.numpy())
+    #print(most_probable)
+    # first element in predictions is the score, second element is the class index
+    #label = int(predictions[1])
     print("predicted label: ", label)
     print("model says u drew a: ", classes[label])
