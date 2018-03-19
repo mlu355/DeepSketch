@@ -276,3 +276,16 @@
 2018-03-18 17:29:54,018:INFO: - Eval metrics : accuracy: 0.370 ; loss: 1.941
 2018-03-18 17:29:54,152:INFO: - Found new best accuracy
 2018-03-18 17:29:54,164:INFO: Epoch 2/10
+2018-03-18 18:07:50,300:INFO: Loading the datasets...
+2018-03-18 18:15:49,057:INFO: Loading the datasets...
+2018-03-18 18:15:49,062:INFO: - done.
+2018-03-18 18:15:49,079:INFO: Starting training for 10 epoch(s)
+2018-03-18 18:15:49,079:INFO: Epoch 1/10
+2018-03-18 18:53:34,088:INFO: Loading the datasets...
+2018-03-18 18:53:34,094:INFO: - done.
+2018-03-18 18:53:34,112:INFO: Starting training for 10 epoch(s)
+2018-03-18 18:53:34,112:INFO: Epoch 1/10
+2018-03-18 19:39:27,651:INFO: Loading the datasets...
+2018-03-18 19:39:27,655:INFO: - done.
+2018-03-18 19:39:27,664:INFO: Starting training for 10 epoch(s)
+2018-03-18 19:39:27,664:INFO: Epoch 1/10
