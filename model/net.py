@@ -67,10 +67,13 @@ class Net(nn.Module):
         self.conv3 = nn.Conv2d(self.num_channels*2, self.num_channels*4, kernel_size=3, stride=1, padding=1)
         self.bn3 = nn.BatchNorm2d(self.num_channels*4)
 
+        self.conv4 = nn.Conv2d(self.num_channels*4, self.num_channels*4, kernel_size=3, stride=1, padding=1)
+        self.bn4 = nn.BatchNorm2d(self.num_channels*4)
+
         # deform conv layer - from chunlin
         self.offsets = nn.Conv2d(self.num_channels*4, 18, kernel_size=3, padding=1)
-        self.conv4 = DeformConv2D(self.num_channels*4, self.num_channels*4, kernel_size=3, padding=1)
-        self.bn4 = nn.BatchNorm2d(self.num_channels*4)
+        self.conv5 = DeformConv2D(self.num_channels*4, self.num_channels*4, kernel_size=3, padding=1)
+        self.bn5 = nn.BatchNorm2d(self.num_channels*4)
 
         # final output - from chunlin, changed classes to 250
         self.classifier = nn.Linear(self.num_channels*4, 250)
@@ -125,19 +128,29 @@ class Net(nn.Module):
         # s = self.bn2(s)
         # s = F.relu(self.conv3(s))
         # s = self.bn3(s)
+        #print("before 1:", s.shape)
         s = self.bn1(self.conv1(s))                         # batch_size x num_channels x 64 x 64
+        #print("after bn1:", s.shape)
         s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels x 32 x 32
+        #print("after relu1:", s.shape)
         s = self.bn2(self.conv2(s))                         # batch_size x num_channels*2 x 32 x 32
+        #print("after bn2:", s.shape)
         s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*2 x 16 x 16
+        #print("after relu2:", s.shape)
         s = self.bn3(self.conv3(s))                         # batch_size x num_channels*4 x 16 x 16
+        #print("after bn3:", s.shape)
         s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*4 x 8 x 8
+        #print("after relu3:", s.shape)
+        s = self.bn4(self.conv4(s))                         # batch_size x num_channels*4 x 16 x 16
+        s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*4 x 8 x 8
+
 
         # deformable convolution - from chunlin
         offsets = self.offsets(s)
-        s = F.relu(self.conv4(s, offsets))
-        s = self.bn4(s)
+        s = F.relu(self.conv5(s, offsets))
+        s = self.bn5(s)
         #print(s.shape)
-        s = F.avg_pool2d(s, kernel_size=8, stride=1).view(s.size(0), -1)
+        s = F.avg_pool2d(s, kernel_size=4, stride=1).view(s.size(0), -1)
         #print(s.shape)
         s = self.classifier(s)
 
