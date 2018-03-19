@@ -46,13 +46,26 @@ if __name__ == "__main__":
     assert os.path.isfile(json_path), "No json configuration file found at {}".format(json_path)
     params = utils.Params(json_path)
 
-    # Perform hypersearch over one parameter
+    # Perform hypersearch over learning_rates, batch sizes, dropout
     learning_rates = [1e-4, 1e-3, 1e-2]
-
+    batch_sizes = [32, 64, 128, 256, 512]
+    dropouts = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+    
     for learning_rate in learning_rates:
+        for batch_size in batch_sizes:
+            for dropout in dropouts:
+                params.learning_rate = learning_rate
+		params.batch_size = batch_size
+		params.dropout = dropout
+	        job_name = "learning_rate_{}".format(learning_rate) + "batch_size_{}".format(batch_size) + "dropout_{}".format(dropout)
+		launch_training_job(args.parent_dir, args.data_dir, job_name, params)	 
+    # Perform hypersearch over one parameter
+    #learning_rates = [1e-4, 1e-3, 1e-2]
+
+    #for learning_rate in learning_rates:
         # Modify the relevant parameter in params
-        params.learning_rate = learning_rate
+     #   params.learning_rate = learning_rate
 
         # Launch job (name has to be unique)
-        job_name = "learning_rate_{}".format(learning_rate)
-        launch_training_job(args.parent_dir, args.data_dir, job_name, params)
+      #  job_name = "learning_rate_{}".format(learning_rate)
+       # launch_training_job(args.parent_dir, args.data_dir, job_name, params)
