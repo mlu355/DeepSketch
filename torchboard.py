@@ -22,46 +22,69 @@ if __name__ == '__main__':
 	curr_path = os.path.join(dst, learning_rate[0])
 
 	# getting ther log file
-	for f in os.listdir(curr_path):
-		if f == 'train.log':
-			log = os.path.join(curr_path, f) 
+	# for f in os.listdir(curr_path):
+	# 	if f == 'train.log':
+	# 		log = os.path.join(curr_path, f) 
 
-	# split by 2018
-	# re.compile("2018")
-	train_loss = []
-	eval_loss = []
-	epochs = []
-	f = open(log, 'r').read().split()
+	# getting text.log file since gitignore scerewed up actual log files
+	for f in os.listdir(cwd):
+		if f == "log.txt":
+			log = os.path.join(cwd, f)
 
-	# read file into string
-	file = open(log, 'r').read()
-	# print(re.split("2018-", f))
-	print(file)
-	# print(f)
+	
+	epochs_indices = []
+	f_str = open(log, 'r').read()
 
+	# cleans file to extract losses more easily
+	cleaned_file = re.sub(r'([0-9]){4}-([0-9]){2}-([0-9]){2} ([0-9]){2}:([0-9]){2}:([0-9]){2},([0-9]){3}:INFO: | [:;]', '', f_str)
+	f = cleaned_file.split()
+	# print(cleaned_file)
+
+	num_epochs = 0
 	# get index of lines with epochs
 	for j in range(0, len(f)):
 		if f[j] == "Epoch":
-			# num = f[j+1].split("/")
-			epochs.append(j)
+			# num = f[j+1].split("/")[1]
+			epochs_indices.append(j)
+			# get number of epochs
+			if num_epochs == 0:
+				num_epochs = int(f[j+1].split("/")[1])
+
+	# print("here are ", len(epochs_indices))
+	train_loss = [-1 for i in range(num_epochs+1)]
+	eval_loss = [-1 for i in range(num_epochs+1)]
 
 	# extract loss
-	for j in range(0, len(epochs)):
-		# epoch index +1 = train
-		# epoch index +2 = eval
-		train_loss.append(f[epochs[j]+11])
-		print(f[epochs[j]+11])
-		eval_loss.append(f[epochs[j]+22])
+	for j in range(0, len(epochs_indices)):
 
-	print(train_loss)
+		# because sometimes the logs are out of order...
+		curr_epoch = int(f[epochs_indices[j]+1].split("/")[0])
+		# print(curr_epoch)
+
+		# find Train metrics:
+		upper_bound = len(f)-5
+		if j+1 < len(epochs_indices):
+			upper_bound = epochs_indices[j+1]
+
+		for k in range(epochs_indices[j], upper_bound):
+			if f[k] == "Train":
+				train_loss[curr_epoch] = f[k+5]
+				# print("Epoch: ", curr_epoch, " train loss: ", f[k+5])
+			if f[k] == "Eval":
+				eval_loss[curr_epoch] = f[k+5]
+
+		# train_loss.append(f[epochs_indices[j]+11])
+		# eval_loss.append(f[epochs_indices[j]+22])
+
+		# print(f[epochs_indices[j]+11])
+
+		# train_loss[curr_epoch] = f[epochs_indices[j]+11]
+		# eval_loss[curr_epoch] = f[epochs_indices[j]+22]
+
+	print(len(train_loss))
 	print(len(eval_loss))
 
-	print(epochs)
-	print(train_loss)
-
-
-	plt.plot(np.arange(11)[1:], train_loss[:10], 'ro')
-	# plt.axis([0, 6, 0, 20])
+	plt.plot(np.arange(num_epochs+1)[1:], train_loss[1:], 'ro') # since train epoch indexing starts at 1
 	plt.show()
 	plt.savefig("testlol.png")
 
