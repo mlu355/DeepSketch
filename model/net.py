@@ -196,6 +196,8 @@ def loss_fn(outputs, labels):
     # print("labels: ", labels)
     # print(outputs[1])
     # print(labels.shape)
+    #for i in range(10):
+    #    print(np.argmax(outputs.cpu()[i].data.numpy()), labels[i]) 
     loss = nn.CrossEntropyLoss()
     return loss(outputs, labels)
 
