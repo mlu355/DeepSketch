@@ -1,6 +1,7 @@
 # data for net
 **/data/
 **/model/__pycache__/
+data/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
