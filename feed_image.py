@@ -109,6 +109,8 @@ if __name__ == '__main__':
     label = np.argmax(output.cpu().data.numpy())
     #print(most_probable)
     # first element in predictions is the score, second element is the class index
+    for i in range(len(classes)):
+        print(i, classes[i])    
     #label = int(predictions[1])
     print("predicted label: ", label)
     print("model says u drew a: ", classes[label])
