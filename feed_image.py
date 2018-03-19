@@ -87,13 +87,16 @@ if __name__ == '__main__':
         image = image.unsqueeze(0)  
         print("image shape: ", image.shape)
 
-        return image.cpu()  
+        if params.cuda:
+            return image.cuda()
+        else:
+            return image.cpu()  
 
     # get image path
     cwd = os.getcwd()
 
     #curr_path = os.path.join(cwd, "data/64x64_SKETCHES/test_sketches/16_1315.png")
-    curr_path = os.path.join(cwd, "data/64x64_SKETCHES/test_sketches/76_6160.png")
+    curr_path = os.path.join(cwd, "data/64x64_SKETCHES/test_sketches/209_3721.png")
 
     image = image_loader(curr_path)
     
@@ -103,7 +106,7 @@ if __name__ == '__main__':
     #print(output)
     #predictions = output.max(1) 
     #print("predictions", predictions)
-    label = np.argmax(output.data.numpy())
+    label = np.argmax(output.cpu().data.numpy())
     #print(most_probable)
     # first element in predictions is the score, second element is the class index
     #label = int(predictions[1])
