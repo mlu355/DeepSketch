@@ -135,7 +135,7 @@ class Net(nn.Module):
         # s = F.relu(self.conv3(s))
         # s = self.bn3(s)
         #print("before 1:", s.shape)
-        s = self.bn1(self.conv1(s))                         # batch_size x num_channels x 64 x 64
+        s = F.dropout(self.bn1(self.conv1(s)))                         # batch_size x num_channels x 64 x 64
         #print("after bn1:", s.shape)
         s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels x 32 x 32
         #print("after relu1:", s.shape)
@@ -165,6 +165,7 @@ class Net(nn.Module):
         s = F.avg_pool2d(s, kernel_size=4, stride=1).view(s.size(0), -1)
        
         # apply 2 fully connected layers with dropout
+        #s = s.view(-1, 8*8*self.num_channels*4) 
         s = F.dropout(F.relu(self.fcbn1(self.fc1(s))), 
         p=self.dropout_rate, training=self.training)    # batch_size x self.num_channels*4
         #
