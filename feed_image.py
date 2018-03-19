@@ -1,5 +1,4 @@
 """Evaluates the model"""
-
 import argparse
 import logging
 import os
@@ -20,6 +19,21 @@ parser.add_argument('--model_dir', default='experiments/base_model', help="Direc
 parser.add_argument('--restore_file', default='best', help="name of the file in --model_dir \
                      containing weights to load")
 
+# creates an array mapping index to class name
+def get_classes():
+    cwd = os.getcwd()
+
+    data_path = os.path.join(cwd, 'data/SKETCHES_ALL')
+    filenames= os.listdir(".") # get all files' and folders' names in the current directory
+
+    # getting all the subfolders
+    classes = []
+    for f in os.listdir(data_path):
+        if os.path.isdir(os.path.join(data_path, f)): # check whether the current object is a folder or not
+            classes.append(f)
+
+    # print("class: ", len(classes))
+    return classes
 
 if __name__ == '__main__':
     """
@@ -31,6 +45,9 @@ if __name__ == '__main__':
     assert os.path.isfile(json_path), "No json configuration file found at {}".format(json_path)
     params = utils.Params(json_path)
 
+    # get classes
+    classes = get_classes()
+
     # use GPU if available
     params.cuda = torch.cuda.is_available()     # use GPU is available
 
@@ -38,25 +55,12 @@ if __name__ == '__main__':
     torch.manual_seed(230)
     if params.cuda: torch.cuda.manual_seed(230)
         
-    # Get the logger
-    utils.set_logger(os.path.join(args.model_dir, 'evaluate.log'))
-
-    # Create the input data pipeline
-    logging.info("Creating the dataset...")
-
-    # fetch dataloaders
-    dataloaders = data_loader.fetch_dataloader(['test'], args.data_dir, params)
-    test_dl = dataloaders['test']
-
-    logging.info("- done.")
-
     # Define the model
     model = net.Net(params).cuda() if params.cuda else net.Net(params)
     
     loss_fn = net.loss_fn
     metrics = net.metrics
     
-    logging.info("Starting evaluation")
 
     # Reload weights from the saved file
     utils.load_checkpoint(os.path.join(args.model_dir, args.restore_file + '.pth.tar'), model)
@@ -88,7 +92,7 @@ if __name__ == '__main__':
     # get image path
     cwd = os.getcwd()
 
-    curr_path = os.path.join(cwd, "my_test.png")
+    curr_path = os.path.join(cwd, "test_img.png")
 
     image = image_loader(curr_path)
     
@@ -96,5 +100,7 @@ if __name__ == '__main__':
     model.eval()
     output = model(image)
     predictions = output.max(1) 
-    # label = res.data.cpu().numpy()
-    print(predictions)
+    # first e;ement in predicvtions is the score, second element is the class index
+    label = int(predictions[1])
+    print("predicted label: ", label)
+    print("model says u drew a: ", classes[label])
