@@ -133,7 +133,14 @@ def load_checkpoint(checkpoint, model, optimizer=None):
     """
     if not os.path.exists(checkpoint):
         raise("File doesn't exist {}".format(checkpoint))
-    checkpoint = torch.load(checkpoint)
+    #checkpoint = torch.load(checkpoint)
+    if torch.cuda.is_available():
+        print("Loading checkpoint into GPU")
+        checkpoint = torch.load(checkpoint)
+    else:
+        print("Loading checkpoint into CPU")
+        checkpoint = torch.load(checkpoint, map_location=lambda storage, loc: storage)
+    model.load_state_dict(checkpoint['state_dict'])
     model.load_state_dict(checkpoint['state_dict'])
 
     if optimizer:
