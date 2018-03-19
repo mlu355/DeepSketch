@@ -67,10 +67,10 @@ class Net(nn.Module):
         self.conv3 = nn.Conv2d(self.num_channels*2, self.num_channels*2, kernel_size=3, stride=1, padding=1)
         self.bn3 = nn.BatchNorm2d(self.num_channels*2)
 
-        self.conv4 = nn.Conv2d(self.num_channels*2, self.num_channels*2, kernel_size=3, stride=1, padding=1)
-        self.bn4 = nn.BatchNorm2d(self.num_channels*2)
+        self.conv4 = nn.Conv2d(self.num_channels*2, self.num_channels*4, kernel_size=3, stride=1, padding=1)
+        self.bn4 = nn.BatchNorm2d(self.num_channels*4)
 
-        self.conv5 = nn.Conv2d(self.num_channels*2, self.num_channels*4, kernel_size=3, stride=1, padding=1)
+        self.conv5 = nn.Conv2d(self.num_channels*4, self.num_channels*4, kernel_size=3, stride=1, padding=1)
         self.bn5 = nn.BatchNorm2d(self.num_channels*4)
 
         # deform conv layer - from chunlin
@@ -145,8 +145,11 @@ class Net(nn.Module):
         s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*4 x 8 x 8
         #print("after relu3:", s.shape)
         s = self.bn4(self.conv4(s))                         # batch_size x num_channels*4 x 16 x 16
+        #print("after bn4:", s.shape)
         s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*4 x 8 x 8
+       # print("after relu4:", s.shape)
         s = self.bn5(self.conv5(s))                         # batch_size x num_channels*4 x 16 x 16
+        #print("after bn5:", s.shape)
         #s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*4 x 8 x 8
         #print("after relu5:", s.shape)
 

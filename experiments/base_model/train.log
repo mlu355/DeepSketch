@@ -1647,3 +1647,35 @@
 2018-03-19 03:36:03,792:INFO: - Train metrics: accuracy: 0.981 ; loss: 0.086
 2018-03-19 03:36:04,738:INFO: - Eval metrics : accuracy: 0.544 ; loss: 3.406
 >>>>>>> e9936ae9b197b62f2265f9793d8fcb53db5ce035
+2018-03-18 21:24:26,586:INFO: Loading the datasets...
+2018-03-18 21:24:26,622:INFO: - done.
+2018-03-18 21:24:26,636:INFO: Starting training for 200 epoch(s)
+2018-03-18 21:24:26,637:INFO: Epoch 1/200
+2018-03-18 21:25:30,739:INFO: Loading the datasets...
+2018-03-18 21:25:30,773:INFO: - done.
+2018-03-18 21:25:30,785:INFO: Starting training for 200 epoch(s)
+2018-03-18 21:25:30,786:INFO: Epoch 1/200
+2018-03-18 21:26:10,802:INFO: Loading the datasets...
+2018-03-18 21:26:10,841:INFO: - done.
+2018-03-18 21:26:10,855:INFO: Starting training for 200 epoch(s)
+2018-03-18 21:26:10,856:INFO: Epoch 1/200
+2018-03-18 21:27:08,559:INFO: Loading the datasets...
+2018-03-18 21:27:08,590:INFO: - done.
+2018-03-18 21:27:08,605:INFO: Starting training for 200 epoch(s)
+2018-03-18 21:27:08,605:INFO: Epoch 1/200
+2018-03-18 21:28:59,728:INFO: Loading the datasets...
+2018-03-18 21:28:59,760:INFO: - done.
+2018-03-18 21:28:59,772:INFO: Starting training for 200 epoch(s)
+2018-03-18 21:28:59,772:INFO: Epoch 1/200
+2018-03-18 21:29:59,777:INFO: Loading the datasets...
+2018-03-18 21:29:59,811:INFO: - done.
+2018-03-18 21:29:59,823:INFO: Starting training for 200 epoch(s)
+2018-03-18 21:29:59,823:INFO: Epoch 1/200
+2018-03-18 21:31:38,738:INFO: Loading the datasets...
+2018-03-18 21:31:38,769:INFO: - done.
+2018-03-18 21:31:38,781:INFO: Starting training for 200 epoch(s)
+2018-03-18 21:31:38,781:INFO: Epoch 1/200
+2018-03-18 21:32:09,405:INFO: Loading the datasets...
+2018-03-18 21:32:09,437:INFO: - done.
+2018-03-18 21:32:09,449:INFO: Starting training for 200 epoch(s)
+2018-03-18 21:32:09,450:INFO: Epoch 1/200
