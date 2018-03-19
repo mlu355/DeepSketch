@@ -41,7 +41,7 @@ class SKETCHESDataset(Dataset):
         else:
             self.labels = [int(filename.split('/')[-1].split('_')[0]) for filename in self.filenames]
         
-        print("labels", len(self.labels), len(self.filenames))
+        #print("labels", len(self.labels), len(self.filenames))
 #        for i in range(len(self.labels)):
 #            print(self.filenames[i], self.labels[i])
 
