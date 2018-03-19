@@ -26,19 +26,31 @@ parser.add_argument('--restore_file', default=None,
                     help="Optional, name of the file in --model_dir containing weights to reload before \
                     training")  # 'best' or 'train'
 
+
+
 # initlaize deform conv layer
 # chunlins initialize stuff
 def init_weights(m):
     if isinstance(m, nn.Conv2d) or isinstance(m, nn.Linear):
         nn.init.xavier_uniform(m.weight, gain=nn.init.calculate_gain('relu'))
+
+        # Added cuda option because the input and bias were mismatching in AWS.
         if m.bias is not None:
-            m.bias.data = torch.FloatTensor(m.bias.shape[0]).zero_()
+            if params.cuda:
+                m.bias.data = torch.FloatTensor(m.bias.shape[0]).zero_().cuda()
+            else:
+                m.bias.data = torch.FloatTensor(m.bias.shape[0]).zero_()
 
 
 def init_conv_offset(m):
     m.weight.data = torch.zeros_like(m.weight.data)
     if m.bias is not None:
-        m.bias.data = torch.FloatTensor(m.bias.shape[0]).zero_()
+        # Added cuda option because the input and bias were mismatching in AWS.
+        if m.bias is not None:
+            if params.cuda:
+                m.bias.data = torch.FloatTensor(m.bias.shape[0]).zero_().cuda()
+            else:
+                m.bias.data = torch.FloatTensor(m.bias.shape[0]).zero_()
 
 def train(model, optimizer, loss_fn, dataloader, metrics, params):
     """Train the model on `num_steps` batches
@@ -76,7 +88,7 @@ def train(model, optimizer, loss_fn, dataloader, metrics, params):
             loss = loss_fn(output_batch, labels_batch)
 
             # clear previous gradients, compute gradients of all variables wrt loss
-            #print("clear previous f")
+            #fprint("clear previous f")
             optimizer.zero_grad()
             loss.backward()
 
@@ -194,7 +206,14 @@ if __name__ == '__main__':
     logging.info("- done.")
 
     # Define the model and optimizer
-    model = net.Net(params).cuda() if params.cuda else net.Net(params)
+    if params.cuda:
+        model = net.Net(params).cuda()
+    else:
+        model = net.Net(params)
+
+    # Use cuda if specified and available
+    #if params.cuda and torch.:
+    #    model.cuda()
 
     # initialize model and deform - like chunlin
     model.apply(init_weights)
