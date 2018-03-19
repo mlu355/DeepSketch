@@ -35,10 +35,16 @@ class SKETCHESDataset(Dataset):
         self.filenames = os.listdir(data_dir)
         self.filenames = [os.path.join(data_dir, f) for f in self.filenames if f.endswith('.png')]
 
+
         if platform.system() == 'Windows':
-            self.labels = [int(filename.split('\\')[-1][0]) for filename in self.filenames]
+            self.labels = [int(filename.split('\\')[-1].split('_')[0]) for filename in self.filenames]
         else:
-            self.labels = [int(filename.split('/')[-1][0]) for filename in self.filenames]
+            self.labels = [int(filename.split('/')[-1].split('_')[0]) for filename in self.filenames]
+        
+        print("labels", len(self.labels), len(self.filenames))
+        for i in range(len(self.labels)):
+            print(self.filenames[i], self.labels[i])
+
         self.transform = transform
 
     def __len__(self):
@@ -58,6 +64,7 @@ class SKETCHESDataset(Dataset):
         """
         image = Image.open(self.filenames[idx])  # PIL image
         image = self.transform(image)
+        # print("label: ", self.labels[idx])
         return image, self.labels[idx]
 
 

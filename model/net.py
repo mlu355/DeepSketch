@@ -193,9 +193,15 @@ def loss_fn(outputs, labels):
     Note: you may use a standard loss function from http://pytorch.org/docs/master/nn.html#loss-functions. This example
           demonstrates how you can easily define a custom loss function.
     """
-    num_examples = outputs.size()[0]
-    return -torch.sum(outputs[range(num_examples), labels])/num_examples
+    # print("labels: ", labels)
+    # print(outputs[1])
+    # print(labels.shape)
+    loss = nn.CrossEntropyLoss()
+    return loss(outputs, labels)
 
+    # num_examples = outputs.size()[0]
+    # return -torch.sum(outputs[range(num_examples), labels])/num_examples
+    
 
 def accuracy(outputs, labels):
     """
@@ -209,7 +215,7 @@ def accuracy(outputs, labels):
     """
     outputs = np.argmax(outputs, axis=1)
     # print("np.sum(outputs==labels): ", np.sum(outputs==labels), " np.sum(outputs==labels)/float(labels.size): ", np.sum(outputs==labels)/float(labels.size)) 
-    # print("outputs: ", outputs, " labels: ", labels) 
+    print("outputs: ", outputs, " labels: ", labels) 
     return np.sum(outputs==labels)/float(labels.size)
 
 
