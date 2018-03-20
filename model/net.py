@@ -1,10 +1,13 @@
 """Defines the neural network, losss function and metrics"""
 
 import numpy as np
+np.set_printoptions(threshold=np.nan)
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from deform_conv import DeformConv2D
+
+from sklearn.metrics import confusion_matrix
 
 # importing their deform net lol
 class Net(nn.Module):
@@ -179,13 +182,13 @@ class Net(nn.Module):
 
 
 
-def loss_fn(outputs, labels):
+def loss_fn(outputs, labels, params):
     """
     Compute the cross entropy loss given outputs and labels.
 
     Args:
-        outputs: (Variable) dimension batch_size x 6 - output of the model
-        labels: (Variable) dimension batch_size, where each element is a value in [0, 1, 2, 3, 4, 5]
+        outputs: (Variable) dimension batch_size x 250 - output of the model
+        labels: (Variable) dimension batch_size, where each element is a value in [0, 1, 2, ... , 248, 249]
 
     Returns:
         loss (Variable): cross entropy loss for all images in the batch
@@ -199,10 +202,41 @@ def loss_fn(outputs, labels):
     #for i in range(10):
     #    print(np.argmax(outputs.cpu()[i].data.numpy()), labels[i]) 
     loss = nn.CrossEntropyLoss()
-    return loss(outputs, labels)
+    
+
+    class_true = []
+    class_pred = []
+
+     # extract data from torch Variable, move to cpu, convert to numpy arrays
+    outputs_1 = outputs.data.cpu().numpy()
+    labels_1 = labels.data.cpu().numpy()
+
+    # get label from each output in batch
+    for i in range(outputs_1.shape[0]):
+        predicted_label = np.argmax(outputs_1[i], axis=0)
+        class_pred.append(predicted_label)
+        class_true.append(labels_1[i])
+
+    conf_mat = confusion_matrix(class_true, class_pred, labels=np.arange(250))
+
+    # get diagonals
+    # print("sum: ", np.sum(conf_mat), " trace: ", np.trace(conf_mat))
+    # print("actual: ",class_true)
+    # print("predict: ", class_pred)
+    # print(np.sum(conf_mat) - np.trace(conf_mat))
+
+    conf_loss = np.sum(conf_mat) - np.trace(conf_mat)
+    total_loss = loss(outputs, labels) + (float(conf_loss) / params.batch_size) * params.confusion_factor
+    # print(total_loss)
+
+    # print(loss(outputs, labels))
+    return total_loss
 
     # num_examples = outputs.size()[0]
     # return -torch.sum(outputs[range(num_examples), labels])/num_examples
+
+    # confusion matrix
+
     
 
 def accuracy(outputs, labels):

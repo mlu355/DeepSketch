@@ -107,10 +107,11 @@ if __name__ == '__main__':
     filename = args.file
     curr_path = os.path.join(cwd, filename)
 
+    # not necessary
+    
     # new_dir = 'resized'
     # new_dir = os.path.join(cwd, new_dir)
     # new_path = os.path.join(new_dir, filename)
-
     # resize_and_save(curr_path, new_dir, filename)
 
 

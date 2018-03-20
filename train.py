@@ -85,7 +85,7 @@ def train(model, optimizer, loss_fn, dataloader, metrics, params):
             # compute model output and loss
             #print("compute model output and loss")
             output_batch = model(train_batch)
-            loss = loss_fn(output_batch, labels_batch)
+            loss = loss_fn(output_batch, labels_batch, params)
 
             # clear previous gradients, compute gradients of all variables wrt loss
             #fprint("clear previous f")
