@@ -5,23 +5,19 @@ import matplotlib
 matplotlib.use("Agg") 
 import matplotlib.pyplot as plt
 import numpy as np
-import seaborn as sns
-sns.set_style("ticks")
 
 # graph loss over time
 # parsing log file to extract loss data
-learning_rate = ['learning_rate_0.0001', 'learning_rate_0.001', 'learning_rate_0.01']
 
 if __name__ == '__main__':
 	# find the log file
 	cwd = os.getcwd()
 
+	# logs to be visualized directiory
 	if platform.system() == 'Windows':
-		dst = os.path.join(cwd, 'experiments\\learning_rate')
+		dst = os.path.join(cwd, 'visualize_logs')
 	else:
-		dst = os.path.join(cwd, 'experiments/learning_rate')
-
-	curr_path = os.path.join(dst, learning_rate[0])
+		dst = os.path.join(cwd, 'visualize_logs')
 
 	# getting ther log file
 	# for f in os.listdir(curr_path):
@@ -29,9 +25,13 @@ if __name__ == '__main__':
 	# 		log = os.path.join(curr_path, f) 
 
 	# getting text.log file since gitignore scerewed up actual log files
-	for f in os.listdir(cwd):
-		if f == "log.txt":
-			log = os.path.join(cwd, f)
+	print(dst)
+	curr_file = ""
+	for f in os.listdir(dst):
+		print("file name:, ", f)
+		if f == "sorted_classes.txt":
+			log = os.path.join(dst, f)
+			curr_file = f
 
 	
 	epochs_indices = []
@@ -95,26 +95,51 @@ if __name__ == '__main__':
 	print(max(train_loss))
 	print(max(eval_loss))
 
+	# graph directory
+	graph_dir = os.path.join(dst, curr_file.split('.')[0])
+	if not os.path.exists(graph_dir):
+		os.mkdir(graph_dir)
+
+	# graph formats
+	formats = [".svg", ".png"]
+
 	# train plot
 	plt.figure(0)
 	plt.plot(np.arange(num_epochs+1)[1:], train_loss[1:], 'ro') # since train epoch indexing starts at 1
-	plt.yticks(np.arange(min(train_loss), max(train_loss)+0.1, 0.1))
-	plt.savefig("train.png")
+	plt.yticks(np.linspace(min(train_loss), max(train_loss), 10))
+	plt.xlabel('Epochs')
+	plt.ylabel('Loss')
+
+	# save train plot
+	for format in formats:
+		img_path = os.path.join(graph_dir, "train"+format)
+		plt.savefig(img_path)
 
 	# eval plot
 	plt.figure(1)
-	plt.plot(np.arange(num_epochs+1)[1:], eval_loss[1:], 'ro') # since train epoch indexing starts at 1
-	plt.yticks(np.arange(min(eval_loss), max(eval_loss), 1))
-	plt.show()
-	plt.savefig("eval.png")
+	plt.plot(np.arange(num_epochs+1)[1:], eval_loss[1:], 'bs') # since train epoch indexing starts at 1
+	plt.yticks(np.linspace(min(eval_loss), max(eval_loss), 10))
+	plt.xlabel('Epochs')
+	plt.ylabel('Loss')
 
-	# together
+	# save eval plot
+	for format in formats:
+		img_path = os.path.join(graph_dir, "eval"+format)
+		plt.savefig(img_path)
+
+	# together both plots
 	plt.figure(2)
-	plt.plot(np.arange(num_epochs+1)[1:], train_loss[1:], 'r--', np.arange(num_epochs+1)[1:], eval_loss[1:], 'bs')
-	plt.yticks(np.arange(min(min(eval_loss), min(train_loss)), max(max(eval_loss), max(train_loss)), 1))
+	plt.plot(np.arange(num_epochs+1)[1:], train_loss[1:], 'ro', label='Train')
+	plt.plot(np.arange(num_epochs+1)[1:], eval_loss[1:], 'bs', label='Eval')
+	plt.yticks(np.linspace(min(min(eval_loss), min(train_loss)), max(max(eval_loss), max(train_loss)), 10))
+	plt.xlabel('Epochs')
+	plt.ylabel('Loss')
+	plt.legend(loc='upper right')
 	plt.legend()
-	plt.show()
-	plt.savefig("together.png")
 
+	# save together plot
+	for format in formats:
+		img_path = os.path.join(graph_dir, "both"+format)
+		plt.savefig(img_path)
 			
 
