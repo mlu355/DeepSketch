@@ -222,7 +222,7 @@ if __name__ == '__main__':
     model.offsets.apply(init_conv_offset)
 
     # optiizer we use adam, chunlin uses SGD
-    optimizer = optim.Adam(model.parameters(), lr=params.learning_rate)
+    optimizer = optim.Adam(model.parameters(), lr=params.learning_rate, weight_decay=params.weight_decay)
 
     # fetch loss function and metrics
     loss_fn = net.loss_fn
