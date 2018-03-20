@@ -141,8 +141,7 @@ def train_and_evaluate(model, train_dataloader, val_dataloader, optimizer, loss_
         utils.load_checkpoint(restore_path, model, optimizer)
 
     best_val_acc = 0.0
-    lowest_loss = 0.0
-
+    lowest_loss = 1000000000
     for epoch in range(params.num_epochs):
         # Run one epoch
         logging.info("Epoch {}/{}".format(epoch + 1, params.num_epochs))
@@ -158,6 +157,7 @@ def train_and_evaluate(model, train_dataloader, val_dataloader, optimizer, loss_
 
         # We want to keep the model with the lowest loss since high dev accuracy might be the result of a favored imbalanced class.
         val_loss = val_metrics['loss']
+
         is_best = val_loss <= lowest_loss
 
         # Save weights
@@ -167,9 +167,10 @@ def train_and_evaluate(model, train_dataloader, val_dataloader, optimizer, loss_
                                'optim_dict' : optimizer.state_dict()},
                                is_best=is_best,
                                checkpoint=model_dir)
-
+        print(val_loss, lowest_loss)
         # If best_eval, best_save_path
         if is_best:
+            print("is_best")
             # logging.info("- Found new best accuracy")
             # best_val_acc = val_acc
             logging.info("- Found new lowest loss")
