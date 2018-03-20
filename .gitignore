@@ -1,5 +1,6 @@
 # ignore data stuff
 data/
+data
 __pycache__/
 model/__pycache__/
 logs/
