@@ -115,8 +115,8 @@ def split_data(dst_data_dir):
         for filename in tqdm(filenames[split]):
             save_path = os.path.join(output_dir_split, filename)
             if split != 'train':
-                shutil.copy(os.path.join(train_data_dir, filename), save_path)
-                #shutil.move(os.path.join(train_data_dir, filename), save_path)
+                #shutil.copy(os.path.join(train_data_dir, filename), save_path)
+                shutil.move(os.path.join(train_data_dir, filename), save_path)
 
 if __name__ == '__main__':
     args = parser.parse_args()
