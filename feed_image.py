@@ -64,14 +64,8 @@ if __name__ == '__main__':
     loss_fn = net.loss_fn
     metrics = net.metrics
     
-
     # Reload weights from the saved file
     utils.load_checkpoint(os.path.join(args.model_dir, args.restore_file + '.pth.tar'), model)
-
-    # Evaluate
-    # test_metrics = evaluate(model, loss_fn, test_dl, metrics, params)
-    # save_path = os.path.join(args.model_dir, "metrics_test_{}.json".format(args.restore_file))
-    # utils.save_dict_to_json(test_metrics, save_path)
 
 
     def resize_and_save(filename, output_dir, new_name, size=SIZE):
@@ -113,14 +107,14 @@ if __name__ == '__main__':
     filename = args.file
     curr_path = os.path.join(cwd, filename)
 
-    new_dir = 'resized'
-    new_dir = os.path.join(cwd, new_dir)
-    new_path = os.path.join(new_dir, filename)
+    # new_dir = 'resized'
+    # new_dir = os.path.join(cwd, new_dir)
+    # new_path = os.path.join(new_dir, filename)
 
-    resize_and_save(curr_path, new_dir, filename)
+    # resize_and_save(curr_path, new_dir, filename)
 
 
-    image = image_loader(new_path)
+    image = image_loader(args.file)
     
     # set model to evaluation mode
     model.eval()
