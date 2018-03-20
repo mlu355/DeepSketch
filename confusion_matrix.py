@@ -2,6 +2,7 @@
 import argparse
 import logging
 import os
+import platform
 
 import numpy as np
 import torch
@@ -17,10 +18,11 @@ import torchvision.transforms as transforms
 from sklearn.metrics import confusion_matrix
 
 import matplotlib
-matplotlib.use("Agg") 
+if platform.system() != 'Windows':
+    matplotlib.use("Agg") 
 import matplotlib.pyplot as plt
+matplotlib.rcParams.update({'font.size': 16})
 
-import itertools
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--data_dir', default='data/64x64_SKETCHES', help="Directory containing the dataset")
@@ -99,72 +101,6 @@ def evaluate(model, loss_fn, dataloader, metrics, params):
     np.save("conf_matrix", conf_mat)
     return conf_mat
 
-def make_confusion_plot(arr):
-    norm_conf = []
-    for i in arr:
-        a = 0
-        tmp_arr = []
-        a = sum(i, 0)
-        for j in i:
-            tmp_arr.append(float(j)/float(a))
-        norm_conf.append(tmp_arr)
-
-    fig = plt.figure()
-    plt.clf()
-    ax = fig.add_subplot(111)
-    ax.set_aspect(1)
-    res = ax.imshow(np.array(norm_conf), cmap=plt.cm.jet, 
-                    interpolation='nearest')
-
-    width, height = arr.shape
-
-    for x in range(width):
-        for y in range(height):
-            ax.annotate(str(arr[x][y]), xy=(y, x), 
-                        horizontalalignment='center',
-                        verticalalignment='center')
-
-    cb = fig.colorbar(res)
-    alphabet = 'A'*250
-    plt.xticks(range(width), alphabet[:width])
-    plt.yticks(range(height), alphabet[:height])
-    plt.savefig('confusion_matrix.png', format='png')
-
-def plot_confusion_matrix(cm, classes,
-                          normalize=False,
-                          title='Confusion matrix',
-                          cmap=plt.cm.Blues):
-    """
-    This function prints and plots the confusion matrix.
-    Normalization can be applied by setting `normalize=True`.
-    """
-    if normalize:
-        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
-        print("Normalized confusion matrix")
-    else:
-        print('Confusion matrix, without normalization')
-
-    print(cm)
-
-    plt.imshow(cm, interpolation='nearest', cmap=cmap)
-    plt.title(title)
-    plt.colorbar()
-    tick_marks = np.arange(len(classes))
-    plt.xticks(tick_marks, classes, rotation=45)
-    plt.yticks(tick_marks, classes)
-
-    fmt = '.2f' if normalize else 'd'
-    thresh = cm.max() / 2.
-    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-        plt.text(j, i, format(cm[i, j], fmt),
-                 horizontalalignment="center",
-                 color="white" if cm[i, j] > thresh else "black")
-
-    plt.tight_layout()
-    plt.ylabel('True label')
-    plt.xlabel('Predicted label')
-    plt.savefig('confusion_matrix.png', format='png')
-
 if __name__ == '__main__':
     """
         Evaluate the model on the test set.
@@ -202,12 +138,22 @@ if __name__ == '__main__':
     # Evaluate
     # conf_matrix = evaluate(model, loss_fn, test_dl, metrics, params)
     conf_matrix = np.load("conf_matrix.npy")
-    print("confused matrix: ", conf_matrix)
+    # print("confused matrix: ", conf_matrix)
     # make_confusion_plot(conf_matrix[:10][:10])
 
-    plt.figure()
-    plot_confusion_matrix(conf_matrix, classes=classes,
-                      title='Confusion matrix, without normalization')
-
+    confmat = np.load("conf_matrix.npy")
+    confmat = np.load("conf_matrix.npy")
+    print(confmat.shape)
+    ticks=np.arange(250)
+    plt.imshow(confmat, interpolation='none', cmap=plt.cm.jet)
+    plt.colorbar()
+    # plt.xticks(ticks,fontsize=6)
+    # plt.yticks(ticks,fontsize=6)
+    # plt.grid(True)
+    plt.xlabel('Predicted Label')
+    plt.ylabel('True Label')
+    plt.show()
+    # plt.savefig('confusion_matrix.svg', format='svg')
+    plt.savefig('confusion_matrix.eps', format='eps', dpi=1000)
 
 
