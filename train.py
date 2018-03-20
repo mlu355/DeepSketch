@@ -141,6 +141,7 @@ def train_and_evaluate(model, train_dataloader, val_dataloader, optimizer, loss_
         utils.load_checkpoint(restore_path, model, optimizer)
 
     best_val_acc = 0.0
+    lowest_loss = 0.0
 
     for epoch in range(params.num_epochs):
         # Run one epoch
@@ -153,7 +154,11 @@ def train_and_evaluate(model, train_dataloader, val_dataloader, optimizer, loss_
         val_metrics = evaluate(model, loss_fn, val_dataloader, metrics, params)
 
         val_acc = val_metrics['accuracy']
-        is_best = val_acc>=best_val_acc
+        #is_best = val_acc>=best_val_acc
+
+        # We want to keep the model with the lowest loss since high dev accuracy might be the result of a favored imbalanced class.
+        val_loss = val_metrics['loss']
+        is_best = val_loss <= lowest_loss
 
         # Save weights
         print("saving weights")
@@ -165,8 +170,10 @@ def train_and_evaluate(model, train_dataloader, val_dataloader, optimizer, loss_
 
         # If best_eval, best_save_path
         if is_best:
-            logging.info("- Found new best accuracy")
-            best_val_acc = val_acc
+            # logging.info("- Found new best accuracy")
+            # best_val_acc = val_acc
+            logging.info("- Found new lowest loss")
+            lowest_loss = val_loss
 
             # Save best val metrics in a json file in the model directory
             best_json_path = os.path.join(model_dir, "metrics_val_best_weights.json")
