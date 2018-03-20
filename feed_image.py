@@ -21,7 +21,7 @@ parser.add_argument('--restore_file', default='best', help="name of the file in 
                      containing weights to load")
 
 parser.add_argument('--file', default='/user_imgs/carrot.png', help="name of image to load and test")
-SIZE = 64
+SIZE = 128
 
 # creates an array mapping index to class name
 def get_classes():
@@ -72,8 +72,7 @@ def resize_and_save(filename, output_dir, new_name, size=SIZE):
 
 def image_loader(params, image_name):
     # each image is 64x64
-    imsize = 64 
-    loader = transforms.Compose([transforms.Resize((imsize, imsize)), transforms.ToTensor()])
+    loader = transforms.Compose([transforms.Resize((SIZE, SIZE)), transforms.ToTensor()])
 
     """load image, returns cpu tensor turn it into grayscale"""
     image = Image.open(image_name).convert('L')
