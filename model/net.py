@@ -170,7 +170,7 @@ class Net(nn.Module):
         p=self.dropout_rate, training=self.training)    # batch_size x self.num_channels*4
         #
  
-	#print(s.shape)
+	    #print(s.shape)
         s = self.classifier(s)
 
         # apply log softmax on each image's output (this is recommended over applying softmax

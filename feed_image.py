@@ -19,7 +19,7 @@ parser.add_argument('--model_dir', default='experiments/base_model', help="Direc
 parser.add_argument('--restore_file', default='best', help="name of the file in --model_dir \
                      containing weights to load")
 
-parser.add_argument('--file', default='carrot', help="name of image to load and test")
+parser.add_argument('--file', default='/user_imgs/carrot.png', help="name of image to load and test")
 SIZE = 64
 
 # creates an array mapping index to class name
@@ -64,14 +64,8 @@ if __name__ == '__main__':
     loss_fn = net.loss_fn
     metrics = net.metrics
     
-
     # Reload weights from the saved file
     utils.load_checkpoint(os.path.join(args.model_dir, args.restore_file + '.pth.tar'), model)
-
-    # Evaluate
-    # test_metrics = evaluate(model, loss_fn, test_dl, metrics, params)
-    # save_path = os.path.join(args.model_dir, "metrics_test_{}.json".format(args.restore_file))
-    # utils.save_dict_to_json(test_metrics, save_path)
 
 
     def resize_and_save(filename, output_dir, new_name, size=SIZE):
@@ -112,15 +106,17 @@ if __name__ == '__main__':
     #filename = "apple.png"
     filename = args.file
     curr_path = os.path.join(cwd, filename)
+    #curr_path = cwd + filename
+    print(curr_path)
 
-    new_dir = 'resized'
-    new_dir = os.path.join(cwd, new_dir)
-    new_path = os.path.join(new_dir, filename)
+    # new_dir = 'resized'
+    # new_dir = os.path.join(cwd, new_dir)
+    # new_path = os.path.join(new_dir, filename)
 
-    resize_and_save(curr_path, new_dir, filename)
+    # resize_and_save(curr_path, new_dir, filename)
 
 
-    image = image_loader(new_path)
+    image = image_loader(curr_path)
     
     # set model to evaluation mode
     model.eval()
