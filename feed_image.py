@@ -43,7 +43,7 @@ def get_classes():
     # print("class: ", len(classes))
     return classes
 
-def setup_model(params):
+def setup_model(params, model_dir='experiments/base_model', restore_file='best'):
     # use GPU if available
     params.cuda = torch.cuda.is_available()     # use GPU is available
 
@@ -52,13 +52,14 @@ def setup_model(params):
     if params.cuda: torch.cuda.manual_seed(230)
         
     # Define the model
+    # use GPU if available
     model = net.Net(params).cuda() if params.cuda else net.Net(params)
     
     loss_fn = net.loss_fn
     metrics = net.metrics
     
     # Reload weights from the saved file
-    utils.load_checkpoint(os.path.join(args.model_dir, args.restore_file + '.pth.tar'), model)
+    utils.load_checkpoint(os.path.join(model_dir, restore_file + '.pth.tar'), model)
 
     return model
 
@@ -69,7 +70,7 @@ def resize_and_save(filename, output_dir, new_name, size=SIZE):
         image = image.resize((size, size), Image.BILINEAR)
         image.save(os.path.join(output_dir, new_name))
 
-def image_loader(image_name):
+def image_loader(params, image_name):
     # each image is 64x64
     imsize = 64 
     loader = transforms.Compose([transforms.Resize((imsize, imsize)), transforms.ToTensor()])
@@ -86,6 +87,8 @@ def image_loader(image_name):
     image = image.unsqueeze(0)  
     #print("image shape: ", image.shape)
 
+    # use GPU if available
+    
     if params.cuda:
         return image.cuda()
     else:
@@ -95,6 +98,9 @@ def classify_img(img_path, json_path='experiments/base_model/params.json'):
      # Load the parameters
     assert os.path.isfile(json_path), "No json configuration file found at {}".format(json_path)
     params = utils.Params(json_path)
+    params.cuda = torch.cuda.is_available()
+
+    print("oarams test: ", params.batch_size)
 
     # get classes
     classes = get_classes()
@@ -103,14 +109,17 @@ def classify_img(img_path, json_path='experiments/base_model/params.json'):
     model = setup_model(params) 
 
     # load test image
-    image = image_loader(img_path)
+    image = image_loader(params, img_path)
     
     # set model to evaluation mode
     model.eval()
     output = model(image)
     label = np.argmax(output.cpu().data.numpy())
+
     print("predicted label: ", label)
     print("model says u drew a: ", classes[label])
+
+    return label, classes[label]
 
 
 if __name__ == '__main__':
