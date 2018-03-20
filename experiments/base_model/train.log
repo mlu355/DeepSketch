@@ -6564,3 +6564,176 @@
 2018-03-20 03:16:05,317:INFO: - Train metrics: accuracy: 0.793 ; loss: 0.656
 2018-03-20 03:16:05,926:INFO: - Eval metrics : accuracy: 0.587 ; loss: 1.546
 2018-03-20 03:16:05,942:INFO: Epoch 73/300
+2018-03-19 22:28:52,777:INFO: Loading the datasets...
+2018-03-19 22:28:52,911:INFO: - done.
+2018-03-19 22:28:52,932:INFO: Starting training for 300 epoch(s)
+2018-03-19 22:28:52,932:INFO: Epoch 1/300
+2018-03-19 22:29:38,478:INFO: Loading the datasets...
+2018-03-19 22:29:38,617:INFO: - done.
+2018-03-19 22:29:38,639:INFO: Starting training for 300 epoch(s)
+2018-03-19 22:29:38,640:INFO: Epoch 1/300
+2018-03-19 22:29:57,612:INFO: Loading the datasets...
+2018-03-19 22:29:57,746:INFO: - done.
+2018-03-19 22:29:57,766:INFO: Starting training for 300 epoch(s)
+2018-03-19 22:29:57,767:INFO: Epoch 1/300
+2018-03-19 22:30:33,015:INFO: Loading the datasets...
+2018-03-19 22:30:33,143:INFO: - done.
+2018-03-19 22:30:33,167:INFO: Starting training for 300 epoch(s)
+2018-03-19 22:30:33,168:INFO: Epoch 1/300
+2018-03-19 22:30:56,575:INFO: Loading the datasets...
+2018-03-19 22:30:56,724:INFO: - done.
+2018-03-19 22:30:56,749:INFO: Starting training for 300 epoch(s)
+2018-03-19 22:30:56,750:INFO: Epoch 1/300
+2018-03-19 22:31:41,451:INFO: Loading the datasets...
+2018-03-19 22:31:41,579:INFO: - done.
+2018-03-19 22:31:41,601:INFO: Starting training for 300 epoch(s)
+2018-03-19 22:31:41,602:INFO: Epoch 1/300
+2018-03-19 22:33:31,040:INFO: Loading the datasets...
+2018-03-19 22:33:31,166:INFO: - done.
+2018-03-19 22:33:31,186:INFO: Starting training for 300 epoch(s)
+2018-03-19 22:33:31,187:INFO: Epoch 1/300
+2018-03-19 22:46:46,769:INFO: Loading the datasets...
+2018-03-19 22:46:46,886:INFO: - done.
+2018-03-19 22:46:46,909:INFO: Starting training for 300 epoch(s)
+2018-03-19 22:46:46,910:INFO: Epoch 1/300
+2018-03-19 22:47:13,537:INFO: Loading the datasets...
+2018-03-19 22:47:13,669:INFO: - done.
+2018-03-19 22:47:13,691:INFO: Starting training for 300 epoch(s)
+2018-03-19 22:47:13,692:INFO: Epoch 1/300
+2018-03-19 22:47:31,836:INFO: Loading the datasets...
+2018-03-19 22:47:31,964:INFO: - done.
+2018-03-19 22:47:31,985:INFO: Starting training for 300 epoch(s)
+2018-03-19 22:47:31,986:INFO: Epoch 1/300
+2018-03-19 22:48:16,787:INFO: Loading the datasets...
+2018-03-19 22:48:16,921:INFO: - done.
+2018-03-19 22:48:16,944:INFO: Starting training for 300 epoch(s)
+2018-03-19 22:48:16,945:INFO: Epoch 1/300
+2018-03-19 22:49:29,915:INFO: Loading the datasets...
+2018-03-19 22:49:30,042:INFO: - done.
+2018-03-19 22:49:30,064:INFO: Starting training for 300 epoch(s)
+2018-03-19 22:49:30,065:INFO: Epoch 1/300
+2018-03-19 22:50:45,246:INFO: Loading the datasets...
+2018-03-19 22:50:45,413:INFO: - done.
+2018-03-19 22:50:45,441:INFO: Starting training for 300 epoch(s)
+2018-03-19 22:50:45,442:INFO: Epoch 1/300
+2018-03-19 22:51:19,730:INFO: Loading the datasets...
+2018-03-19 22:51:19,861:INFO: - done.
+2018-03-19 22:51:19,885:INFO: Starting training for 300 epoch(s)
+2018-03-19 22:51:19,885:INFO: Epoch 1/300
+2018-03-19 22:52:58,269:INFO: Loading the datasets...
+2018-03-19 22:52:58,401:INFO: - done.
+2018-03-19 22:52:58,424:INFO: Starting training for 300 epoch(s)
+2018-03-19 22:52:58,425:INFO: Epoch 1/300
+2018-03-19 22:53:29,426:INFO: Loading the datasets...
+2018-03-19 22:53:29,554:INFO: - done.
+2018-03-19 22:53:29,575:INFO: Starting training for 300 epoch(s)
+2018-03-19 22:53:29,576:INFO: Epoch 1/300
+2018-03-19 22:56:26,824:INFO: Loading the datasets...
+2018-03-19 22:56:26,952:INFO: - done.
+2018-03-19 22:56:26,976:INFO: Starting training for 300 epoch(s)
+2018-03-19 22:56:26,976:INFO: Epoch 1/300
+2018-03-19 22:57:10,290:INFO: Loading the datasets...
+2018-03-19 22:57:10,449:INFO: - done.
+2018-03-19 22:57:10,478:INFO: Starting training for 300 epoch(s)
+2018-03-19 22:57:10,479:INFO: Epoch 1/300
+2018-03-19 22:57:43,770:INFO: Loading the datasets...
+2018-03-19 22:57:43,896:INFO: - done.
+2018-03-19 22:57:43,917:INFO: Starting training for 300 epoch(s)
+2018-03-19 22:57:43,917:INFO: Epoch 1/300
+2018-03-19 22:58:56,206:INFO: Loading the datasets...
+2018-03-19 22:58:56,342:INFO: - done.
+2018-03-19 22:58:56,363:INFO: Starting training for 300 epoch(s)
+2018-03-19 22:58:56,364:INFO: Epoch 1/300
+2018-03-19 22:59:25,634:INFO: Loading the datasets...
+2018-03-19 22:59:25,761:INFO: - done.
+2018-03-19 22:59:25,785:INFO: Starting training for 300 epoch(s)
+2018-03-19 22:59:25,785:INFO: Epoch 1/300
+2018-03-19 23:03:48,621:INFO: Loading the datasets...
+2018-03-19 23:03:48,741:INFO: - done.
+2018-03-19 23:03:48,759:INFO: Starting training for 300 epoch(s)
+2018-03-19 23:03:48,759:INFO: Restoring parameters from experiments/base_model/best.pth.tar
+2018-03-19 23:03:48,817:INFO: Epoch 1/300
+2018-03-19 23:05:44,754:INFO: Loading the datasets...
+2018-03-19 23:05:44,884:INFO: - done.
+2018-03-19 23:05:44,905:INFO: Starting training for 300 epoch(s)
+2018-03-19 23:05:44,906:INFO: Restoring parameters from experiments/base_model/best.pth.tar
+2018-03-19 23:05:44,940:INFO: Epoch 1/300
+2018-03-19 23:08:59,157:INFO: Loading the datasets...
+2018-03-19 23:08:59,284:INFO: - done.
+2018-03-19 23:08:59,304:INFO: Starting training for 300 epoch(s)
+2018-03-19 23:08:59,305:INFO: Restoring parameters from experiments/base_model/best.pth.tar
+2018-03-19 23:08:59,339:INFO: Epoch 1/300
+2018-03-19 23:09:16,322:INFO: Loading the datasets...
+2018-03-19 23:10:58,297:INFO: Loading the datasets...
+2018-03-19 23:10:58,430:INFO: - done.
+2018-03-19 23:10:58,451:INFO: Starting training for 300 epoch(s)
+2018-03-19 23:10:58,451:INFO: Restoring parameters from experiments/base_model/best.pth.tar
+2018-03-19 23:10:58,487:INFO: Epoch 1/300
+2018-03-19 23:11:45,648:INFO: Loading the datasets...
+2018-03-19 23:11:45,773:INFO: - done.
+2018-03-19 23:11:45,794:INFO: Starting training for 300 epoch(s)
+2018-03-19 23:11:45,795:INFO: Restoring parameters from experiments/base_model/best.pth.tar
+2018-03-19 23:11:45,836:INFO: Epoch 1/300
+2018-03-19 23:12:14,367:INFO: Loading the datasets...
+2018-03-19 23:12:14,495:INFO: - done.
+2018-03-19 23:12:14,518:INFO: Starting training for 300 epoch(s)
+2018-03-19 23:12:14,518:INFO: Restoring parameters from experiments/base_model/best.pth.tar
+2018-03-19 23:12:14,551:INFO: Epoch 1/300
+2018-03-19 23:13:00,443:INFO: Loading the datasets...
+2018-03-19 23:13:00,567:INFO: - done.
+2018-03-19 23:13:00,590:INFO: Starting training for 300 epoch(s)
+2018-03-19 23:13:00,590:INFO: Restoring parameters from experiments/base_model/best.pth.tar
+2018-03-19 23:13:00,626:INFO: Epoch 1/300
+2018-03-19 23:14:18,574:INFO: Loading the datasets...
+2018-03-19 23:14:18,700:INFO: - done.
+2018-03-19 23:14:18,724:INFO: Starting training for 300 epoch(s)
+2018-03-19 23:14:18,724:INFO: Restoring parameters from experiments/base_model/best.pth.tar
+2018-03-19 23:14:18,758:INFO: Epoch 1/300
+2018-03-19 23:15:40,849:INFO: Loading the datasets...
+2018-03-19 23:15:41,018:INFO: - done.
+2018-03-19 23:15:41,059:INFO: Starting training for 300 epoch(s)
+2018-03-19 23:15:41,059:INFO: Restoring parameters from experiments/base_model/best.pth.tar
+2018-03-19 23:15:41,101:INFO: Epoch 1/300
+2018-03-19 23:17:20,495:INFO: Loading the datasets...
+2018-03-19 23:17:20,625:INFO: - done.
+2018-03-19 23:17:20,647:INFO: Starting training for 300 epoch(s)
+2018-03-19 23:17:20,647:INFO: Restoring parameters from experiments/base_model/best.pth.tar
+2018-03-19 23:17:20,682:INFO: Epoch 1/300
+2018-03-19 23:17:48,889:INFO: Loading the datasets...
+2018-03-19 23:17:49,018:INFO: - done.
+2018-03-19 23:17:49,044:INFO: Starting training for 300 epoch(s)
+2018-03-19 23:17:49,047:INFO: Restoring parameters from experiments/base_model/best.pth.tar
+2018-03-19 23:17:49,082:INFO: Epoch 1/300
+2018-03-19 23:18:25,812:INFO: Loading the datasets...
+2018-03-19 23:18:26,014:INFO: - done.
+2018-03-19 23:18:26,078:INFO: Starting training for 300 epoch(s)
+2018-03-19 23:18:26,078:INFO: Restoring parameters from experiments/base_model/best.pth.tar
+2018-03-19 23:18:26,115:INFO: Epoch 1/300
+2018-03-19 23:19:10,200:INFO: Loading the datasets...
+2018-03-19 23:19:10,341:INFO: - done.
+2018-03-19 23:19:10,363:INFO: Starting training for 300 epoch(s)
+2018-03-19 23:19:10,363:INFO: Restoring parameters from experiments/base_model/best.pth.tar
+2018-03-19 23:19:10,398:INFO: Epoch 1/300
+2018-03-19 23:19:34,243:INFO: Loading the datasets...
+2018-03-19 23:19:34,391:INFO: - done.
+2018-03-19 23:19:34,417:INFO: Starting training for 300 epoch(s)
+2018-03-19 23:19:34,417:INFO: Restoring parameters from experiments/base_model/best.pth.tar
+2018-03-19 23:19:34,451:INFO: Epoch 1/300
+2018-03-19 23:21:19,705:INFO: Loading the datasets...
+2018-03-19 23:21:19,859:INFO: - done.
+2018-03-19 23:21:19,897:INFO: Starting training for 300 epoch(s)
+2018-03-19 23:21:19,898:INFO: Restoring parameters from experiments/base_model/best.pth.tar
+2018-03-19 23:21:19,930:INFO: Epoch 1/300
+2018-03-19 23:21:53,273:INFO: Loading the datasets...
+2018-03-19 23:21:53,401:INFO: - done.
+2018-03-19 23:21:53,423:INFO: Starting training for 300 epoch(s)
+2018-03-19 23:21:53,424:INFO: Epoch 1/300
+2018-03-19 23:25:38,380:INFO: Loading the datasets...
+2018-03-19 23:25:38,524:INFO: - done.
+2018-03-19 23:25:38,546:INFO: Starting training for 300 epoch(s)
+2018-03-19 23:25:38,546:INFO: Epoch 1/300
+2018-03-19 23:35:18,391:INFO: - Train metrics: accuracy: 0.012 ; loss: 5.326
+2018-03-19 23:39:17,033:INFO: Loading the datasets...
+2018-03-19 23:39:17,163:INFO: - done.
+2018-03-19 23:39:17,186:INFO: Starting training for 300 epoch(s)
+2018-03-19 23:39:17,187:INFO: Epoch 1/300
