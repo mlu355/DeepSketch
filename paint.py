@@ -30,7 +30,7 @@ class ImageGenerator:
         cwd = os.getcwd()
         user_img_dir = os.path.join(cwd, "user_imgs")
 
-        # make fir for user images if not already exists
+        # make dir for user images if not already exists
         if not os.path.exists(user_img_dir):
             os.mkdir(user_img_dir)
 

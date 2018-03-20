@@ -125,7 +125,9 @@ if __name__ == '__main__':
 
     # extract list of classes
     classes = extract_classes(args.data_dir)
-
+    print(classes)
+    classes.sort()
+    print("sorted", classes) 
     # rename images (append classification to filename)
     par_dir = os.path.abspath(os.path.join(args.data_dir, os.pardir))
     dst_data_dir = os.path.join(par_dir, '64x64_SKETCHES')

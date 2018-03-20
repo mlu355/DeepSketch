@@ -19,6 +19,9 @@ parser.add_argument('--model_dir', default='experiments/base_model', help="Direc
 parser.add_argument('--restore_file', default='best', help="name of the file in --model_dir \
                      containing weights to load")
 
+parser.add_argument('--file', default='carrot', help="name of image to load and test")
+SIZE = 64
+
 # creates an array mapping index to class name
 def get_classes():
     cwd = os.getcwd()
@@ -70,6 +73,14 @@ if __name__ == '__main__':
     # save_path = os.path.join(args.model_dir, "metrics_test_{}.json".format(args.restore_file))
     # utils.save_dict_to_json(test_metrics, save_path)
 
+
+    def resize_and_save(filename, output_dir, new_name, size=SIZE):
+        """Resize the image contained in `filename` and save it to the `output_dir`"""
+        image = Image.open(filename)
+        # Use bilinear interpolation instead of the default "nearest neighbor" method
+        image = image.resize((size, size), Image.BILINEAR)
+        image.save(os.path.join(output_dir, new_name))
+
     def image_loader(image_name):
         # each image is 64x64
         imsize = 64 
@@ -80,12 +91,12 @@ if __name__ == '__main__':
 
         # resize and turn image to tensor
         image = loader(image).float()
-        print("image shape: ", image.shape)
+        #print("image shape: ", image.shape)
         image = Variable(image, requires_grad=True)
 
         # should have dims 1 x num_channels x height x width
         image = image.unsqueeze(0)  
-        print("image shape: ", image.shape)
+        #print("image shape: ", image.shape)
 
         if params.cuda:
             return image.cuda()
@@ -96,9 +107,20 @@ if __name__ == '__main__':
     cwd = os.getcwd()
 
     #curr_path = os.path.join(cwd, "data/64x64_SKETCHES/test_sketches/16_1315.png")
-    curr_path = os.path.join(cwd, "data/64x64_SKETCHES/test_sketches/209_3721.png")
+    #curr_path = os.path.join(cwd, "data/64x64_SKETCHES/test_sketches/209_3721.png")
 
-    image = image_loader(curr_path)
+    #filename = "apple.png"
+    filename = args.file
+    curr_path = os.path.join(cwd, filename)
+
+    new_dir = 'resized'
+    new_dir = os.path.join(cwd, new_dir)
+    new_path = os.path.join(new_dir, filename)
+
+    resize_and_save(curr_path, new_dir, filename)
+
+
+    image = image_loader(new_path)
     
     # set model to evaluation mode
     model.eval()
@@ -109,6 +131,8 @@ if __name__ == '__main__':
     label = np.argmax(output.cpu().data.numpy())
     #print(most_probable)
     # first element in predictions is the score, second element is the class index
+    #for i in range(len(classes)):
+    #    print(i, classes[i])    
     #label = int(predictions[1])
     print("predicted label: ", label)
     print("model says u drew a: ", classes[label])
