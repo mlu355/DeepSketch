@@ -220,9 +220,9 @@ def loss_fn(outputs, labels, params):
     conf_mat = confusion_matrix(class_true, class_pred, labels=np.arange(250))
 
     # get diagonals
-    # print("sum: ", np.sum(conf_mat), " trace: ", np.trace(conf_mat))
-    # print("actual: ",class_true)
-    # print("predict: ", class_pred)
+    print("sum: ", np.sum(conf_mat), " trace: ", np.trace(conf_mat))
+    #print("actual: ",class_true)
+    #print("predict: ", class_pred)
     # print(np.sum(conf_mat) - np.trace(conf_mat))
 
     conf_loss = np.sum(conf_mat) - np.trace(conf_mat)
