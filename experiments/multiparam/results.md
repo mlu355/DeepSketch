@@ -1,0 +1,27 @@
+|                                             |   accuracy |     loss |   epoch |
+|:--------------------------------------------|-----------:|---------:|--------:|
+| experiments/multiparam/dropout_0.2          |  0.843262  | 0.662897 |     112 |
+| experiments/multiparam/confusion_factor_0.4 |  0.758301  | 1.00817  |      47 |
+| experiments/multiparam/dropout_0.3          |  0.830566  | 0.701236 |     118 |
+| experiments/multiparam/dropout_0.6          |  0.848145  | 0.656696 |     108 |
+| experiments/multiparam/dropout_0.9          |  0.818359  | 0.722093 |      92 |
+| experiments/multiparam/confusion_factor_0.5 |  0.737793  | 1.1484   |      25 |
+| experiments/multiparam/batch_size_128       |  0.859668  | 0.563829 |     104 |
+| experiments/multiparam/confusion_factor_0.7 |  0.625488  | 1.6763   |      34 |
+| experiments/multiparam/dropout_0.4          |  0.895996  | 0.435964 |     115 |
+| experiments/multiparam/batch_size_32        |  0.80754   | 0.796881 |      56 |
+| experiments/multiparam/dropout_0.1          |  0.890137  | 0.473029 |     100 |
+| experiments/multiparam/dropout_0.8          |  0.829102  | 0.719182 |      91 |
+| experiments/multiparam/batch_size_256       |  0.934721  | 0.347019 |      93 |
+| experiments/multiparam/batch_size_64        |  0.854004  | 0.619003 |      95 |
+| experiments/multiparam/learning_rate_0.01   |  0.0897817 | 4.77297  |      18 |
+| experiments/multiparam/confusion_factor_1   |  0.715332  | 1.39309  |      23 |
+| experiments/multiparam/confusion_factor_0.2 |  0.695801  | 1.17506  |      24 |
+| experiments/multiparam/dropout_0.7          |  0.827637  | 0.707262 |     113 |
+| experiments/multiparam/learning_rate_0.001  |  0.765137  | 0.984061 |      48 |
+| experiments/multiparam/dropout_0.5          |  0.875977  | 0.520638 |      91 |
+| experiments/multiparam/confusion_factor_0.6 |  0.674316  | 1.38109  |      43 |
+| experiments/multiparam/batch_size_512       |  0.567282  | 1.93051  |      45 |
+| experiments/multiparam/confusion_factor_0.1 |  0.676758  | 1.27031  |      46 |
+| experiments/multiparam/learning_rate_0.0001 |  0.749504  | 1.27211  |      48 |
+| experiments/multiparam/confusion_factor_0.3 |  0.705078  | 1.23787  |      34 |

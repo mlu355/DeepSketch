@@ -26,7 +26,7 @@ import shutil
 from PIL import Image
 from tqdm import tqdm
 
-SIZE = 128
+SIZE = 64  
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--data_dir', default='data/SKETCHES', help="Directory with the SKETCHES dataset")

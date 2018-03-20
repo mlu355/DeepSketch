@@ -162,7 +162,7 @@ class Net(nn.Module):
 
         # deformable convolution - from chunlin
         offsets = self.offsets(s)
-        s = F.relu(self.conv6(s, offsets))
+        s = F.relu(self.conv5(s, offsets))
         s = self.bn5(s)
         #print(s.shape)
         s = F.avg_pool2d(s, kernel_size=4, stride=1).view(s.size(0), -1)
@@ -220,7 +220,7 @@ def loss_fn(outputs, labels, params):
     conf_mat = confusion_matrix(class_true, class_pred, labels=np.arange(250))
 
     # get diagonals
-    print("sum: ", np.sum(conf_mat), " trace: ", np.trace(conf_mat))
+#    print("sum: ", np.sum(conf_mat), " trace: ", np.trace(conf_mat))
     #print("actual: ",class_true)
     #print("predict: ", class_pred)
     # print(np.sum(conf_mat) - np.trace(conf_mat))

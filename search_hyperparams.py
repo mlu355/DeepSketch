@@ -47,11 +47,10 @@ if __name__ == "__main__":
 	params = utils.Params(json_path)
 
 	# Perform hypersearch over learning_rates, batch sizes, dropout
-	learning_rates = [1e-4, 1e-3, 1e-2]
-	confusion_factor = [0.5, 0.6, 0.7, 0.4, 1, 0.3, 0.2, 0.1]
-	dropouts = [0.5, 0.1, 0.2, 0.3, 0.4 0.6, 0.7, 0.8, 0.9]
+	learning_rates = [] #[1e-4, 1e-2, 1e-3]
+	confusion_factors = [0.6, 0.7, 0.4, 1, 0.3, 0.2, 0.1, 0.5]
+	dropouts = [0.9, 0.1, 0.2, 0.3, 0.4, 0.6, 0.7, 0.8, 0.5]
 	batch_sizes = [128, 256, 64, 32, 512]
-	
 	for learning_rate in learning_rates:
 		params.learning_rate = learning_rate
 		job_name = "learning_rate_{}".format(learning_rate)
@@ -76,7 +75,7 @@ if __name__ == "__main__":
 		launch_training_job(args.parent_dir, args.data_dir, job_name, params) 
 
 
-	# Perform hypersearch over one parameter
+	#Perform hypersearch over one parameter
 	#learning_rates = [1e-4, 1e-3, 1e-2]
 
 	#for learning_rate in learning_rates:

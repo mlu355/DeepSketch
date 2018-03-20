@@ -21,7 +21,7 @@ parser.add_argument('--restore_file', default='best', help="name of the file in 
                      containing weights to load")
 
 parser.add_argument('--file', default='/user_imgs/carrot.png', help="name of image to load and test")
-SIZE = 128
+SIZE = 64 
 
 # creates an array mapping index to class name
 def get_classes():
