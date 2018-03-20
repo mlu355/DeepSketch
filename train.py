@@ -170,6 +170,8 @@ def train_and_evaluate(model, train_dataloader, val_dataloader, optimizer, loss_
 
             # Save best val metrics in a json file in the model directory
             best_json_path = os.path.join(model_dir, "metrics_val_best_weights.json")
+            #print("val_metrics", val_metrics) 
+            val_metrics["epoch"] = epoch 
             utils.save_dict_to_json(val_metrics, best_json_path)
 
         # Save latest val metrics in a json file in the model directory

@@ -141,15 +141,15 @@ class Net(nn.Module):
         #print("after relu1:", s.shape)
         s = self.bn2(self.conv2(s))                         # batch_size x num_channels*2 x 32 x 32
         #print("after bn2:", s.shape)
-        s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*2 x 16 x 16
+        s = F.dropout(F.relu(F.max_pool2d(s, 2)))                      # batch_size x num_channels*2 x 16 x 16
         #print("after relu2:", s.shape)
         s = self.bn3(self.conv3(s))                         # batch_size x num_channels*4 x 16 x 16
         #print("after bn3:", s.shape)
-        s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*4 x 8 x 8
+        s = F.dropout(F.relu(F.max_pool2d(s, 2)))                      # batch_size x num_channels*4 x 8 x 8
         #print("after relu3:", s.shape)
         s = self.bn4(self.conv4(s))                         # batch_size x num_channels*4 x 16 x 16
         #print("after bn4:", s.shape)
-        s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*4 x 8 x 8
+        s = F.dropout(F.relu(F.max_pool2d(s, 2)))                      # batch_size x num_channels*4 x 8 x 8
        # print("after relu4:", s.shape)
         #s = self.bn5(self.conv5(s))                         # batch_size x num_channels*4 x 16 x 16
         #print("after bn5:", s.shape)
