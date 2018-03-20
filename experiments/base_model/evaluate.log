@@ -109,3 +109,11 @@
 2018-03-20 02:50:29,990:INFO: - done.
 2018-03-20 02:50:32,241:INFO: Starting evaluation
 2018-03-20 02:50:33,552:INFO: - Eval metrics : accuracy: 0.950 ; loss: 0.154
+2018-03-20 04:51:16,703:INFO: Creating the dataset...
+2018-03-20 04:51:16,709:INFO: - done.
+2018-03-20 04:51:18,975:INFO: Starting evaluation
+2018-03-20 04:51:20,296:INFO: - Eval metrics : accuracy: 0.915 ; loss: 0.320
+2018-03-20 05:19:34,070:INFO: Creating the dataset...
+2018-03-20 05:19:34,076:INFO: - done.
+2018-03-20 05:19:36,397:INFO: Starting evaluation
+2018-03-20 05:19:37,774:INFO: - Eval metrics : accuracy: 0.396 ; loss: 3.004

@@ -47,8 +47,8 @@ if __name__ == "__main__":
 	params = utils.Params(json_path)
 
 	# Perform hypersearch over learning_rates, batch sizes, dropout
-	learning_rates = [1e-3, 1e-2]
-	batch_sizes = [32, 64, 128, 256, 512]
+	learning_rates = [1e-3]#, 1e-2]
+	batch_sizes = [128]#[32, 64, 128, 256, 512]
 	dropouts = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 	
 	for learning_rate in learning_rates:
