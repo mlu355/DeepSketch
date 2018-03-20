@@ -1,0 +1,11 @@
+{
+    "learning_rate": 0.001,
+    "batch_size": 256,
+    "num_epochs": 40,
+    "dropout_rate": 0.5,
+    "num_channels": 32,
+    "save_summary_steps": 100,
+    "num_workers": 4,
+    "weight_decay": 0.001,
+    "dropout": 0.5
+}
