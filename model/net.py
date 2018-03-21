@@ -58,11 +58,11 @@ class Net(nn.Module):
         super(Net, self).__init__()
         self.num_channels = params.num_channels
 
-        channel1 = 64
-        channel2 = 128
-        channel3 = 256
-        channel4 = 512
-        channel5 = 4096
+        channel1 = 32
+        channel2 = 64
+        channel3 = 128
+        channel4 = 256
+        channel5 = 512
         channel6 = 250
 
         num_channels_fc1 = channel1 * 4
@@ -71,19 +71,19 @@ class Net(nn.Module):
         # stride, padding). We also include batch normalisation layers that help stabilise training.
         # For more details on how to use these layers, check out the documentation.
         # no change from original
-        self.conv1 = nn.Conv2d(1, channel1, kernel_size=7, stride=1, padding=1)
+        self.conv1 = nn.Conv2d(1, channel1, kernel_size=7, stride=1, padding=3)
         self.bn1 = nn.BatchNorm2d(channel1)
 
-        self.conv2 = nn.Conv2d(channel1, channel2, kernel_size=5, stride=1, padding=1)
+        self.conv2 = nn.Conv2d(channel1, channel2, kernel_size=3, stride=1, padding=1)
         self.bn2 = nn.BatchNorm2d(channel2)
 
         self.conv3 = nn.Conv2d(channel2, channel3, kernel_size=3, stride=1, padding=1)
         self.bn3 = nn.BatchNorm2d(channel3)
 
-        self.conv4 = nn.Conv2d(channel3, channel4, kernel_size=5, stride=1, padding=1)
+        self.conv4 = nn.Conv2d(channel3, channel4, kernel_size=3, stride=1, padding=1)
         self.bn4 = nn.BatchNorm2d(channel4)
 
-        self.conv5 = nn.Conv2d(channel4, channel5, kernel_size=1, stride=1, padding=1)
+        self.conv5 = nn.Conv2d(channel4, channel5, kernel_size=3, stride=1, padding=1)
         self.bn5 = nn.BatchNorm2d(channel5)
 
         #self.conv6 = nn.Conv2d(channel5, channel6, kernel_size=1, stride=1, padding=1)
@@ -104,7 +104,7 @@ class Net(nn.Module):
         # from ta model i dont think chunlin's model needs this...
         #self.fc1 = nn.Linear(channel6, num_channels_fc1)
         #self.fcbn1 = nn.BatchNorm1d(num_channels_fc1)
-        self.fc2 = nn.Linear(channel5 * 5 * 5, 250)#num_channels_fc1, 250)       
+        self.fc2 = nn.Linear(12800, 250)#num_channels_fc1, 250)       
         self.dropout_rate = params.dropout_rate
 
 
@@ -153,22 +153,22 @@ class Net(nn.Module):
         #print("before 1:", s.shape)
         s = self.bn1(self.conv1(s))                         # batch_size x num_channels x 64 x 64
         #print("after conv1:", s.shape)
-        s = F.relu(F.max_pool2d(s, 3))                      # batch_size x num_channels x 32 x 32
+        s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels x 32 x 32
         #print("after max_pool3:", s.shape)
         s = self.bn2(self.conv2(s))                         # batch_size x num_channels*2 x 32 x 32
         #print("after conv1:", s.shape)
-        s = F.relu(F.max_pool2d(s, 3))                      # batch_size x num_channels*2 x 16 x 16
+        s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*2 x 16 x 16
         #print("after maxpool3:", s.shape)
         s = self.bn3(self.conv3(s))                         # batch_size x num_channels*4 x 16 x 16
         #print("after conv3:", s.shape)
-        s = F.relu(s)                      # batch_size x num_channels*4 x 8 x 8
+        s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*4 x 8 x 8
         #print("after relu3:", s.shape)
         s = self.bn4(self.conv4(s))                         # batch_size x num_channels*4 x 16 x 16
         #print("after conv4:", s.shape)
-        s = F.relu(F.max_pool2d(s, 3))                      # batch_size x num_channels*4 x 8 x 8
+        s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*4 x 8 x 8
        # print("after relu4:", s.shape)
         s = self.bn5(self.conv5(s))                         # batch_size x num_channels*4 x 16 x 16
-        #print("after conv5:", s.shape)
+        print("after conv5:", s.shape)
         s = F.dropout(F.relu(s))                      # batch_size x num_channels*4 x 8 x 8
         #print("after relu5:", s.shape)
         #s = self.bn6(self.conv6(s))
@@ -178,9 +178,9 @@ class Net(nn.Module):
         #s = F.relu(self.conv6(s, offsets))
         #s = self.bn6(s)
 
-        #s = F.avg_pool2d(s, kernel_size=4, stride=1).view(s.size(0), -1)
+        s = F.avg_pool2d(s, kernel_size=4, stride=1).view(s.size(0), -1)
         #print("dims before flatten:", s.shape) 
-        s = s.view(-1, 4096*5*5)             # batch_size x 8*8*num_channels*4
+        #s = s.view(-1, 4096*5*5)             # batch_size x 8*8*num_channels*4
         #print("dims after flatten:", s.shape)  
         #print("conv6 shape:", s.shape)
         # apply 2 fully connected layers with dropout

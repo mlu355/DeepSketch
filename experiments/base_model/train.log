@@ -82,3 +82,32 @@
 2018-03-21 10:20:43,296:INFO: - done.
 2018-03-21 10:20:45,786:INFO: Starting training for 150 epoch(s)
 2018-03-21 10:20:45,786:INFO: Epoch 1/150
+2018-03-21 05:20:27,907:INFO: Loading the datasets...
+2018-03-21 05:29:51,735:INFO: Loading the datasets...
+2018-03-21 05:29:51,742:INFO: - done.
+2018-03-21 05:29:51,762:INFO: Starting training for 150 epoch(s)
+2018-03-21 05:29:51,762:INFO: Epoch 1/150
+2018-03-21 05:32:39,362:INFO: Loading the datasets...
+2018-03-21 05:32:39,425:INFO: - done.
+2018-03-21 05:32:39,445:INFO: Starting training for 150 epoch(s)
+2018-03-21 05:32:39,446:INFO: Epoch 1/150
+2018-03-21 05:33:23,670:INFO: Loading the datasets...
+2018-03-21 05:33:23,740:INFO: - done.
+2018-03-21 05:33:23,762:INFO: Starting training for 150 epoch(s)
+2018-03-21 05:33:23,762:INFO: Epoch 1/150
+2018-03-21 05:37:56,052:INFO: Loading the datasets...
+2018-03-21 05:37:56,111:INFO: - done.
+2018-03-21 05:37:56,131:INFO: Starting training for 150 epoch(s)
+2018-03-21 05:37:56,131:INFO: Epoch 1/150
+2018-03-21 05:38:39,749:INFO: Loading the datasets...
+2018-03-21 05:38:39,803:INFO: - done.
+2018-03-21 05:38:39,824:INFO: Starting training for 150 epoch(s)
+2018-03-21 05:38:39,824:INFO: Epoch 1/150
+2018-03-21 05:39:25,009:INFO: Loading the datasets...
+2018-03-21 05:39:25,064:INFO: - done.
+2018-03-21 05:39:25,086:INFO: Starting training for 150 epoch(s)
+2018-03-21 05:39:25,087:INFO: Epoch 1/150
+2018-03-21 05:40:21,033:INFO: Loading the datasets...
+2018-03-21 05:40:21,089:INFO: - done.
+2018-03-21 05:40:21,141:INFO: Starting training for 150 epoch(s)
+2018-03-21 05:40:21,141:INFO: Epoch 1/150
