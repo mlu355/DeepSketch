@@ -30,7 +30,7 @@ SIZE = 128
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--data_dir', default='data/SKETCHES', help="Directory with the SKETCHES dataset")
-parser.add_argument('--output_dir', default='data/64x64_SKETCHES', help="Where to write the new data")
+parser.add_argument('--output_dir', default='data/128x128_SKETCHES', help="Where to write the new data")
 
 
 def resize_and_save(filename, output_dir, new_name, size=SIZE):
@@ -130,7 +130,7 @@ if __name__ == '__main__':
     print("sorted", classes) 
     # rename images (append classification to filename)
     par_dir = os.path.abspath(os.path.join(args.data_dir, os.pardir))
-    dst_data_dir = os.path.join(par_dir, '64x64_SKETCHES')
+    dst_data_dir = os.path.join(par_dir, args.output_dir)
     if not os.path.exists(dst_data_dir):
         os.makedirs(dst_data_dir)
     train_data_dir = os.path.join(dst_data_dir, 'train_sketches')

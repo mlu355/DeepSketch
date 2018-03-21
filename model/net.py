@@ -86,8 +86,8 @@ class Net(nn.Module):
         self.conv5 = nn.Conv2d(channel4, channel5, kernel_size=1, stride=1, padding=1)
         self.bn5 = nn.BatchNorm2d(channel5)
 
-        self.conv6 = nn.Conv2d(channel5, channel6, kernel_size=1, stride=1, padding=1)
-        self.bn6 = nn.BatchNorm2d(channel6)
+        #self.conv6 = nn.Conv2d(channel5, channel6, kernel_size=1, stride=1, padding=1)
+        #self.bn6 = nn.BatchNorm2d(channel6)
 
 
         # deform conv layer - from chunlin
@@ -104,7 +104,7 @@ class Net(nn.Module):
         # from ta model i dont think chunlin's model needs this...
         #self.fc1 = nn.Linear(channel6, num_channels_fc1)
         #self.fcbn1 = nn.BatchNorm1d(num_channels_fc1)
-        self.fc2 = nn.Linear(channel6 * 5 * 5, 250)#num_channels_fc1, 250)       
+        self.fc2 = nn.Linear(channel5 * 5 * 5, 250)#num_channels_fc1, 250)       
         self.dropout_rate = params.dropout_rate
 
 
@@ -152,26 +152,26 @@ class Net(nn.Module):
         # s = self.bn3(s)
         #print("before 1:", s.shape)
         s = self.bn1(self.conv1(s))                         # batch_size x num_channels x 64 x 64
-        #print("after bn1:", s.shape)
+        #print("after conv1:", s.shape)
         s = F.relu(F.max_pool2d(s, 3))                      # batch_size x num_channels x 32 x 32
-        #print("after relu1:", s.shape)
+        #print("after max_pool3:", s.shape)
         s = self.bn2(self.conv2(s))                         # batch_size x num_channels*2 x 32 x 32
-        #print("after bn2:", s.shape)
+        #print("after conv1:", s.shape)
         s = F.relu(F.max_pool2d(s, 3))                      # batch_size x num_channels*2 x 16 x 16
-        #print("after relu2:", s.shape)
+        #print("after maxpool3:", s.shape)
         s = self.bn3(self.conv3(s))                         # batch_size x num_channels*4 x 16 x 16
-        #print("after bn3:", s.shape)
+        #print("after conv3:", s.shape)
         s = F.relu(s)                      # batch_size x num_channels*4 x 8 x 8
         #print("after relu3:", s.shape)
         s = self.bn4(self.conv4(s))                         # batch_size x num_channels*4 x 16 x 16
-        #print("after bn4:", s.shape)
+        #print("after conv4:", s.shape)
         s = F.relu(F.max_pool2d(s, 3))                      # batch_size x num_channels*4 x 8 x 8
        # print("after relu4:", s.shape)
         s = self.bn5(self.conv5(s))                         # batch_size x num_channels*4 x 16 x 16
-        #print("after bn5:", s.shape)
+        #print("after conv5:", s.shape)
         s = F.dropout(F.relu(s))                      # batch_size x num_channels*4 x 8 x 8
         #print("after relu5:", s.shape)
-        s = self.bn6(self.conv6(s))
+        #s = self.bn6(self.conv6(s))
 
         # deformable convolution - from chunlin
         #offsets = self.offsets(s)
@@ -180,7 +180,7 @@ class Net(nn.Module):
 
         #s = F.avg_pool2d(s, kernel_size=4, stride=1).view(s.size(0), -1)
         #print("dims before flatten:", s.shape) 
-        s = s.view(-1, 250*5*5)             # batch_size x 8*8*num_channels*4
+        s = s.view(-1, 4096*5*5)             # batch_size x 8*8*num_channels*4
         #print("dims after flatten:", s.shape)  
         #print("conv6 shape:", s.shape)
         # apply 2 fully connected layers with dropout
