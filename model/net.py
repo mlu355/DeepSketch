@@ -82,7 +82,7 @@ class Net(nn.Module):
         self.conv6 = DeformConv2D(self.num_channels*4, self.num_channels*4, kernel_size=3, padding=1)
         self.bn6 = nn.BatchNorm2d(self.num_channels*4)
 
-        self.fc1 = nn.Linear(self.num_channels*4, self.num_channels*4)
+        self.fc1 = nn.Linear(self.num_channels*100, self.num_channels*4)
         self.fcbn1 = nn.BatchNorm1d(self.num_channels*4) 
         # final output - from chunlin, changed classes to 250
         self.classifier = nn.Linear(self.num_channels*4, 250)
@@ -166,7 +166,7 @@ class Net(nn.Module):
         s = self.bn6(s)
         #print(s.shape)
         s = F.avg_pool2d(s, kernel_size=4, stride=1).view(s.size(0), -1)
-        print("dims after deform:", s.shape) 
+        #print("dims after deform:", s.shape) 
         #s = s.view(-1, 8*8*self.num_channels*4)             # batch_size x 8*8*num_channels*4
  
         # apply 2 fully connected layers with dropout
