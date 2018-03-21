@@ -29,7 +29,7 @@ if __name__ == '__main__':
 	curr_file = ""
 	for f in os.listdir(dst):
 		print("file name:, ", f)
-		if f == "sorted_classes.txt":
+		if f == "best538.txt":
 			log = os.path.join(dst, f)
 			curr_file = f
 

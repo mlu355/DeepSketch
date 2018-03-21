@@ -166,7 +166,9 @@ class Net(nn.Module):
         s = self.bn6(s)
         #print(s.shape)
         s = F.avg_pool2d(s, kernel_size=4, stride=1).view(s.size(0), -1)
-       
+        print("dims after deform:", s.shape) 
+        #s = s.view(-1, 8*8*self.num_channels*4)             # batch_size x 8*8*num_channels*4
+ 
         # apply 2 fully connected layers with dropout
         #s = s.view(-1, 8*8*self.num_channels*4) 
         s = F.dropout(F.relu(self.fcbn1(self.fc1(s))), 
