@@ -82,7 +82,7 @@ class Net(nn.Module):
         self.conv4 = nn.Conv2d(channel3, channel4, kernel_size=2, stride=1, padding=1)
         self.bn4 = nn.BatchNorm2d(channel4)
 
-        self.conv5 = nn.Conv2d(channel4, channel5, kernel_size=2, stride=1, padding=0)
+        self.conv5 = nn.Conv2d(channel4, channel5, kernel_size=2, stride=1, padding=1)
         self.bn5 = nn.BatchNorm2d(channel5)
 
         # deform conv layer - from chunlin
