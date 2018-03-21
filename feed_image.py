@@ -15,13 +15,13 @@ from PIL import Image
 import torchvision.transforms as transforms
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--data_dir', default='data/64x64_SKETCHES', help="Directory containing the dataset")
+parser.add_argument('--data_dir', default='data/128x128_SKETCHES', help="Directory containing the dataset")
 parser.add_argument('--model_dir', default='experiments/base_model', help="Directory containing params.json")
 parser.add_argument('--restore_file', default='best', help="name of the file in --model_dir \
                      containing weights to load")
 
 parser.add_argument('--file', default='/user_imgs/carrot.png', help="name of image to load and test")
-SIZE = 64 
+SIZE = 128 
 
 # creates an array mapping index to class name
 def get_classes():

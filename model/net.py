@@ -57,35 +57,43 @@ class Net(nn.Module):
 
         super(Net, self).__init__()
         self.num_channels = params.num_channels
+        channel1 = self.num_channels
+        channel2 = channel1 * 2
+        channel3 = channel1 * 2
+        channel4 = channel1 * 4
+        channel6 = channel1 * 4
+        channelfc1 = channel1 * 4
+
 
         # each of the convolution layers below have the arguments (input_channels, output_channels, filter_size,
         # stride, padding). We also include batch normalisation layers that help stabilise training.
         # For more details on how to use these layers, check out the documentation.
         # no change from original
-        self.conv1 = nn.Conv2d(1, self.num_channels, kernel_size=3, stride=1, padding=1)
-        self.bn1 = nn.BatchNorm2d(self.num_channels)
+        self.conv1 = nn.Conv2d(1, channel1, kernel_size=3, stride=1, padding=1)
+        self.bn1 = nn.BatchNorm2d(channel1)
 
-        self.conv2 = nn.Conv2d(self.num_channels, self.num_channels*2, kernel_size=3, stride=1, padding=1)
-        self.bn2 = nn.BatchNorm2d(self.num_channels*2)
+        self.conv2 = nn.Conv2d(channel1, channel2, kernel_size=3, stride=1, padding=1)
+        self.bn2 = nn.BatchNorm2d(channel2)
 
-        self.conv3 = nn.Conv2d(self.num_channels*2, self.num_channels*2, kernel_size=3, stride=1, padding=1)
-        self.bn3 = nn.BatchNorm2d(self.num_channels*2)
+        self.conv3 = nn.Conv2d(channel2, channel3, kernel_size=3, stride=1, padding=1)
+        self.bn3 = nn.BatchNorm2d(channel3)
 
-        self.conv4 = nn.Conv2d(self.num_channels*2, self.num_channels*4, kernel_size=3, stride=1, padding=1)
-        self.bn4 = nn.BatchNorm2d(self.num_channels*4)
+        self.conv4 = nn.Conv2d(channel3, channel4, kernel_size=3, stride=1, padding=1)
+        self.bn4 = nn.BatchNorm2d(channel4)
 
         #self.conv5 = nn.Conv2d(self.num_channels*4, self.num_channels*4, kernel_size=3, stride=1, padding=1)
         #self.bn5 = nn.BatchNorm2d(self.num_channels*4)
 
         # deform conv layer - from chunlin
-        self.offsets = nn.Conv2d(self.num_channels*4, 18, kernel_size=3, padding=1)
-        self.conv6 = DeformConv2D(self.num_channels*4, self.num_channels*4, kernel_size=3, padding=1)
-        self.bn6 = nn.BatchNorm2d(self.num_channels*4)
+        self.offsets = nn.Conv2d(channel4, 18, kernel_size=3, padding=1)
+        self.conv6 = DeformConv2D(channel4, channel6, kernel_size=3, padding=1)
+        self.bn6 = nn.BatchNorm2d(channel6)
 
-        self.fc1 = nn.Linear(self.num_channels*100, self.num_channels*4)
-        self.fcbn1 = nn.BatchNorm1d(self.num_channels*4) 
+        self.fc1 = nn.Linear(channel6*5*5, channelfc1)
+        self.fcbn1 = nn.BatchNorm1d(channelfc1) 
         # final output - from chunlin, changed classes to 250
-        self.classifier = nn.Linear(self.num_channels*4, 250)
+        self.classifier = nn.Linear(channelfc1, 250)
+
 
         # 2 fully connected layers to transform the output of the convolution layers to the final output
         # from ta model i dont think chunlin's model needs this...
