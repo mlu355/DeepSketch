@@ -70,7 +70,7 @@ class Net(nn.Module):
         # stride, padding). We also include batch normalisation layers that help stabilise training.
         # For more details on how to use these layers, check out the documentation.
         # no change from original
-        self.conv1 = nn.Conv2d(1, channel1, kernel_size=3, stride=2, padding=3)
+        self.conv1 = nn.Conv2d(1, channel1, kernel_size=3, stride=1, padding=3)
         self.bn1 = nn.BatchNorm2d(channel1)
 
         self.conv2 = nn.Conv2d(channel1, channel2, kernel_size=3, stride=1, padding=1)

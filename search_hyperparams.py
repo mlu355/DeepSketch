@@ -51,24 +51,24 @@ if __name__ == "__main__":
 	confusion_factors = [0, 0.4, 0.5]
 	dropouts = [0.4, 0.1]
 	batch_sizes = [128, 256, 512, 64]
-	for batch_size in batch_sizes:
-		for dropout in dropouts:
-			for confusion_factor in confusion_factors:
-				params.confusion_factor = confusion_factor
-				params.batch_size = batch_size 
-				params.dropout = dropout
-				print("job:", batch_size, dropout, confusion_factor)	
-				job_name = "batch_size_{}".format(batch_size) + "dropout_{}".format(dropout) + "confusion_factor_{}".format(confusion_factor)
-				launch_training_job(args.parent_dir, args.data_dir, job_name, params) 
+	#for batch_size in batch_sizes:
+	#	for dropout in dropouts:
+	#		for confusion_factor in confusion_factors:
+	#			params.confusion_factor = confusion_factor
+	#			params.batch_size = batch_size 
+	#			params.dropout = dropout
+	#			print("job:", batch_size, dropout, confusion_factor)	
+	#			job_name = "batch_size_{}".format(batch_size) + "dropout_{}".format(dropout) + "confusion_factor_{}".format(confusion_factor)
+	#			launch_training_job(args.parent_dir, args.data_dir, job_name, params) 
 
 
 	#Perform hypersearch over one parameter
-	#learning_rates = [1e-4, 1e-3, 1e-2]
+	learning_rates = [1e-4, 1e-3, 1e-2]
 
 	#for learning_rate in learning_rates:
 		# Modify the relevant parameter in params
-	 #   params.learning_rate = learning_rate
+	     params.learning_rate = learning_rate
 
 		# Launch job (name has to be unique)
-	  #  job_name = "learning_rate_{}".format(learning_rate)
-	   # launch_training_job(args.parent_dir, args.data_dir, job_name, params)
+	     job_name = "learning_rate_{}".format(learning_rate)
+	     launch_training_job(args.parent_dir, args.data_dir, job_name, params)

@@ -12099,3 +12099,11 @@
 2018-03-21 16:46:32,062:INFO: - Train metrics: accuracy: 0.760 ; loss: 0.953
 2018-03-21 16:46:33,747:INFO: - Eval metrics : accuracy: 0.515 ; loss: 2.064
 2018-03-21 16:46:33,794:INFO: Epoch 70/150
+2018-03-21 16:47:42,219:INFO: Loading the datasets...
+2018-03-21 16:47:42,269:INFO: - done.
+2018-03-21 16:47:44,509:INFO: Starting training for 150 epoch(s)
+2018-03-21 16:47:44,510:INFO: Epoch 1/150
+2018-03-21 16:48:05,258:INFO: Loading the datasets...
+2018-03-21 16:48:05,311:INFO: - done.
+2018-03-21 16:48:07,633:INFO: Starting training for 150 epoch(s)
+2018-03-21 16:48:07,633:INFO: Epoch 1/150
