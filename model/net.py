@@ -57,12 +57,13 @@ class Net(nn.Module):
 
         super(Net, self).__init__()
         self.num_channels = params.num_channels
-        channel1 = self.num_channels
-        channel2 = channel1 * 2
-        channel3 = channel1 * 2
-        channel4 = channel1 * 4
-        channel6 = channel1 * 4
-        channelfc1 = channel1 * 4
+        channel1 = self.num_channels #32
+        channel2 = channel1 * 2 #64
+        channel3 = channel1 * 2 #64
+        channel4 = channel1 * 4#128
+        channel5 = channel1 * 8 #256
+        channel6 = channel1 * 4 #128
+        channelfc1 = channel1 * 4 #128
 
 
         # each of the convolution layers below have the arguments (input_channels, output_channels, filter_size,
@@ -81,15 +82,15 @@ class Net(nn.Module):
         self.conv4 = nn.Conv2d(channel3, channel4, kernel_size=3, stride=1, padding=1)
         self.bn4 = nn.BatchNorm2d(channel4)
 
-        #self.conv5 = nn.Conv2d(self.num_channels*4, self.num_channels*4, kernel_size=3, stride=1, padding=1)
-        #self.bn5 = nn.BatchNorm2d(self.num_channels*4)
+        self.conv5 = nn.Conv2d(channel4, channel5, kernel_size=3, stride=1, padding=1)
+        self.bn5 = nn.BatchNorm2d(channel5)
 
         # deform conv layer - from chunlin
-        self.offsets = nn.Conv2d(channel4, 18, kernel_size=3, padding=1)
-        self.conv6 = DeformConv2D(channel4, channel6, kernel_size=3, padding=1)
+        self.offsets = nn.Conv2d(channel5, 18, kernel_size=3, padding=1)
+        self.conv6 = DeformConv2D(channel5, channel6, kernel_size=3, padding=1)
         self.bn6 = nn.BatchNorm2d(channel6)
 
-        self.fc1 = nn.Linear(channel6*5*5, channelfc1)
+        self.fc1 = nn.Linear(channel6 * 4*4, channelfc1)
         self.fcbn1 = nn.BatchNorm1d(channelfc1) 
         # final output - from chunlin, changed classes to 250
         self.classifier = nn.Linear(channelfc1, 250)
@@ -161,22 +162,24 @@ class Net(nn.Module):
         s = self.bn4(self.conv4(s))                         # batch_size x num_channels*4 x 16 x 16
         #print("after bn4:", s.shape)
         s = F.dropout(F.relu(F.max_pool2d(s, 2)))                      # batch_size x num_channels*4 x 8 x 8
-       # print("after relu4:", s.shape)
-        #s = self.bn5(self.conv5(s))                         # batch_size x num_channels*4 x 16 x 16
-        #print("after bn5:", s.shape)
+        #print("after relu4:", s.shape)
+        s = self.bn5(self.conv5(s))                         # batch_size x num_channels*4 x 16 x 16
+        s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels x 32 x 32
+        #print("after conv5:", s.shape)
         #s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels*4 x 8 x 8
-        #print("after relu5:", s.shape)
+        #print("before deform layer:", s.shape)
 
 
         # deformable convolution - from chunlin
         offsets = self.offsets(s)
         s = F.relu(self.conv6(s, offsets))
         s = self.bn6(s)
-        #print(s.shape)
-        s = F.avg_pool2d(s, kernel_size=4, stride=1).view(s.size(0), -1)
-        #print("dims after deform:", s.shape) 
-        #s = s.view(-1, 8*8*self.num_channels*4)             # batch_size x 8*8*num_channels*4
- 
+        #print("after deform layer", s.shape)
+        #s = F.avg_pool2d(s, kernel_size=4, stride=1).view(s.size(0), -1)
+        #print("dims before view:", s.shape) 
+        s = s.view(-1, self.num_channels*8*8)             # batch_size x 8*8*num_channels*4
+        
+        #print("after view", s.shape)
         # apply 2 fully connected layers with dropout
         #s = s.view(-1, 8*8*self.num_channels*4) 
         s = F.dropout(F.relu(self.fcbn1(self.fc1(s))), 
