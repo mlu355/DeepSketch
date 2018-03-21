@@ -48,7 +48,7 @@ if __name__ == "__main__":
 
 	# Perform hypersearch over learning_rates, batch sizes, dropout
 	learning_rates = [] #[1e-4, 1e-2, 1e-3]
-	confusion_factors = [0.4, 0.5]
+	confusion_factors = [0, 0.4, 0.5]
 	dropouts = [0.4, 0.1]
 	batch_sizes = [128, 256, 512, 64]
 	for batch_size in batch_sizes:

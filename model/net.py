@@ -79,8 +79,8 @@ class Net(nn.Module):
 
         # deform conv layer - from chunlin
         self.offsets = nn.Conv2d(self.num_channels*4, 18, kernel_size=3, padding=1)
-        self.conv5 = DeformConv2D(self.num_channels*4, self.num_channels*4, kernel_size=3, padding=1)
-        self.bn5 = nn.BatchNorm2d(self.num_channels*4)
+        self.conv6 = DeformConv2D(self.num_channels*4, self.num_channels*4, kernel_size=3, padding=1)
+        self.bn6 = nn.BatchNorm2d(self.num_channels*4)
 
         self.fc1 = nn.Linear(self.num_channels*4, self.num_channels*4)
         self.fcbn1 = nn.BatchNorm1d(self.num_channels*4) 
@@ -162,8 +162,8 @@ class Net(nn.Module):
 
         # deformable convolution - from chunlin
         offsets = self.offsets(s)
-        s = F.relu(self.conv5(s, offsets))
-        s = self.bn5(s)
+        s = F.relu(self.conv6(s, offsets))
+        s = self.bn6(s)
         #print(s.shape)
         s = F.avg_pool2d(s, kernel_size=4, stride=1).view(s.size(0), -1)
        

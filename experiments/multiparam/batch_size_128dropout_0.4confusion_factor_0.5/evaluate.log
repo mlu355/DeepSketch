@@ -1,0 +1,4 @@
+2018-03-21 05:21:55,194:INFO: Creating the dataset...
+2018-03-21 05:21:55,200:INFO: - done.
+2018-03-21 05:21:58,155:INFO: Starting evaluation
+2018-03-21 05:22:00,231:INFO: - Eval metrics : accuracy: 0.523 ; loss: 2.318
