@@ -226,8 +226,8 @@ if __name__ == '__main__':
     #    model.cuda()
 
     # initialize model and deform - like chunlin
-    model.apply(init_weights)
-    model.offsets.apply(init_conv_offset)
+    #model.apply(init_weights)
+    #model.offsets.apply(init_conv_offset)
 
     # optiizer we use adam, chunlin uses SGD
     print("weight_decay:", params.weight_decay) 

@@ -10881,3 +10881,31 @@
 2018-03-21 08:39:39,313:INFO: Epoch 150/150
 2018-03-21 08:39:50,027:INFO: - Train metrics: accuracy: 0.823 ; loss: 0.614
 2018-03-21 08:39:50,765:INFO: - Eval metrics : accuracy: 0.254 ; loss: 3.918
+2018-03-21 02:27:22,950:INFO: Loading the datasets...
+2018-03-21 02:27:23,016:INFO: - done.
+2018-03-21 02:28:41,382:INFO: Loading the datasets...
+2018-03-21 02:28:41,449:INFO: - done.
+2018-03-21 02:28:41,532:INFO: Starting training for 150 epoch(s)
+2018-03-21 02:28:41,532:INFO: Epoch 1/150
+2018-03-21 02:29:36,831:INFO: Loading the datasets...
+2018-03-21 02:29:36,899:INFO: - done.
+2018-03-21 02:29:36,985:INFO: Starting training for 150 epoch(s)
+2018-03-21 02:29:36,986:INFO: Epoch 1/150
+2018-03-21 02:31:01,643:INFO: Loading the datasets...
+2018-03-21 02:31:01,709:INFO: - done.
+2018-03-21 02:31:01,782:INFO: Starting training for 150 epoch(s)
+2018-03-21 02:31:01,783:INFO: Epoch 1/150
+2018-03-21 02:33:25,129:INFO: Loading the datasets...
+2018-03-21 02:33:25,194:INFO: - done.
+2018-03-21 02:33:25,268:INFO: Starting training for 150 epoch(s)
+2018-03-21 02:33:25,269:INFO: Epoch 1/150
+2018-03-21 02:43:45,479:INFO: Loading the datasets...
+2018-03-21 02:43:45,545:INFO: - done.
+2018-03-21 02:44:05,856:INFO: Loading the datasets...
+2018-03-21 02:44:05,923:INFO: - done.
+2018-03-21 02:44:06,009:INFO: Starting training for 150 epoch(s)
+2018-03-21 02:44:06,009:INFO: Epoch 1/150
+2018-03-21 02:44:32,855:INFO: Loading the datasets...
+2018-03-21 02:44:32,920:INFO: - done.
+2018-03-21 02:44:33,006:INFO: Starting training for 150 epoch(s)
+2018-03-21 02:44:33,007:INFO: Epoch 1/150
