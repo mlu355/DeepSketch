@@ -1,0 +1,5 @@
+2018-03-22 07:51:21,885:INFO: Loading the datasets...
+2018-03-22 07:51:21,936:INFO: - done.
+2018-03-22 07:51:24,260:INFO: Starting training for 100 epoch(s)
+2018-03-22 07:51:24,260:INFO: Epoch 1/100
+2018-03-22 07:51:52,794:INFO: - Train metrics: accuracy: 0.002 ; loss: 6.732
