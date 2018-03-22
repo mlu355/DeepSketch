@@ -70,8 +70,14 @@ class Net(nn.Module):
         # stride, padding). We also include batch normalisation layers that help stabilise training.
         # For more details on how to use these layers, check out the documentation.
         # no change from original
-        self.conv1 = nn.Conv2d(1, channel1, kernel_size=3, stride=1, padding=1)
+
+
+        self.offsets1 = nn.Conv2d(1, 18, kernel_size=3, padding=1)
+        self.conv1 = DeformConv2D(1, channel1, kernel_size=3, padding=1)
         self.bn1 = nn.BatchNorm2d(channel1)
+
+        #self.conv1 = nn.Conv2d(1, channel1, kernel_size=3, stride=1, padding=1)
+        #self.bn1 = nn.BatchNorm2d(channel1)
 
         # deform conv layer - from chunlin
         self.offsets2 = nn.Conv2d(channel1, 18, kernel_size=3, padding=1)
@@ -152,7 +158,13 @@ class Net(nn.Module):
         # s = F.relu(self.conv3(s))
         # s = self.bn3(s)
         #print("before 1:", s.shape)
-        s = F.dropout(self.bn1(self.conv1(s)))                         # batch_size x num_channels x 64 x 64
+
+
+        offsets1 = self.offsets1(s)
+        s = F.relu(self.conv2(s, offsets1))
+        s = self.bn1(s) 
+
+        #s = F.dropout(self.bn1(self.conv1(s)))                         # batch_size x num_channels x 64 x 64
         #print("after bn1:", s.shape)
         s = F.relu(F.max_pool2d(s, 2))                      # batch_size x num_channels x 32 x 32
         #print("after relu1:", s.shape)
